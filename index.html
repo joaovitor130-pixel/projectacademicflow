@@ -226,38 +226,105 @@
             border-radius: 4px;
         }
 
-        /* --- Ajuste Responsivo Inteligente --- */
+        /* ==========================================
+        RESPONSIVIDADE CONSOLIDADA (Substitua os antigos @media por este)
+        ========================================== */
         @media (max-width: 968px) {
+            /* 1. Ajusta o container para permitir duas linhas (Top e Menu) */
             .nav-container {
-                flex-direction: column; /* Empilha o logo em cima e o resto embaixo */
-                gap: 1rem;
-                padding: 1rem;
+                display: flex !important;
+                flex-wrap: wrap !important;
+                flex-direction: row !important;
+                justify-content: space-between !important;
+                padding: 10px 20px !important;
             }
 
             .logo, .auth-nav-wrapper {
-                flex: 0 0 auto;
-                width: 100%;
-                justify-content: center; /* Centraliza logo e botão no mobile */
+                flex: 0 0 auto !important;
+                display: flex !important;
             }
 
+            /* 3. FORÇA O MENU A APARECER CENTRALIZADO ABAIXO */
             .nav-links {
-                display: flex !important; /* Garante que os nomes apareçam */
-                flex: 0 0 auto;
-                width: 100%;
-                justify-content: flex-start; /* Alinha à esquerda para o scroll */
-                gap: 1.5rem;
-                overflow-x: auto; /* ATENÇÃO: Cria o scroll horizontal se faltar espaço */
-                padding-bottom: 5px;
-                -webkit-overflow-scrolling: touch; /* Scroll suave no iOS */
-                scrollbar-width: none; /* Esconde a barra no Firefox */
-            }
-
-            .nav-links::-webkit-scrollbar {
-                display: none; /* Esconde a barra no Chrome/Safari para ficar limpo */
+                display: flex !important; /* Aqui removemos o 'none' que estava escondendo */
+                width: 100% !important;   /* Ocupa a largura toda para descer de linha */
+                justify-content: center !important;
+                margin-top: 15px !important;
+                gap: 1.5rem !important;    /* Espaço entre os nomes */
+                list-style: none !important;
+                padding: 0 !important;
             }
 
             .nav-links li {
-                white-space: nowrap; /* Impede que o texto quebre linha */
+                display: block !important;
+            }
+
+            .nav-links::-webkit-scrollbar {
+                display: none; /* Chrome/Safari */
+            }
+
+            .nav-links a {
+                display: inline-block !important;
+                font-size: 0.85rem !important;
+                color: var(--text-secondary) !important;
+                text-decoration: none !important;
+                font-weight: 500 !important;
+            }
+
+            /* --- Botões (Login e Criação de Conta) --- */
+            .btn-login, .btn-primary {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+                padding: 0.4rem 1rem;
+                min-height: 48px; /* Tamanho ideal para toque no mobile */
+                font-size: 0.9rem;
+            }
+
+            /* --- Hero Section --- */
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 3rem;
+                padding-top: 8rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                margin: 0 auto 2.5rem;
+                font-size: 1.15rem;
+            }
+
+            .hero-visual {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .floating-card {
+                max-width: 100%;
+            }
+
+            /* --- Dashboard & Features --- */
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .app-window {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .app-sidebar {
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                padding: 1.5rem;
+            }
+
+            .dashboard-content {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -764,7 +831,31 @@
             .btn-newsletter {
                 width: 100%;
             }
+
+            /* Centraliza o bloco da marca no footer */
+            .footer-brand {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                margin: 0 auto;
+            }
+
+            /* Garante que a logo (SVG + Texto) fique centralizada */
+            .footer-brand .logo {
+                justify-content: center;
+                margin-bottom: 1rem;
+            }
+
+            /* Centraliza a descrição e remove a limitação de largura para melhor leitura */
+            .footer-brand p {
+                text-align: center;
+                margin-left: auto;
+                margin-right: auto;
+                max-width: 100%; /* Permite que o texto ocupe o espaço necessário */
+            }
         }
+
         /* --- Modal de Autenticação --- */
         .auth-modal {
             position: fixed;
@@ -1025,7 +1116,8 @@
             }
 
             .hero-content h1 {
-                font-size: 2.5rem;
+                font-size: 2.2rem; /* Ajuste para não quebrar tantas linhas */
+                text-align: center;
             }
 
             .hero-content p {
@@ -1034,12 +1126,18 @@
             }
 
             .hero-visual {
-                flex-direction: column;
-                gap: 1.5rem;
+                display: flex;
+                justify-content: center;
             }
 
             .floating-card {
-                max-width: 100%;
+                max-width: 320px; /* Limita o tamanho do card para parecer um app */
+                margin: 0 auto;
+            }
+            
+            /* Esconde o 2º e 3º card no mobile para focar no principal como na sua referência */
+            .floating-card:nth-child(n+2) {
+                display: none;
             }
 
             /* Ajuste do Header Mobile */
@@ -1052,17 +1150,18 @@
             }
 
             .nav-links {
-                display: flex !important;
-                flex-wrap: wrap;
+                display: flex !important; 
+                flex-direction: row; /* Mantém lado a lado */
                 justify-content: center;
-                gap: 0.8rem;
+                gap: 0.8rem; /* Diminui o espaço entre eles para caber na tela */
                 width: 100%;
-                margin-top: 0.5rem;
+                order: 3; /* Coloca os links na linha de baixo se o espaço acabar */
+                margin-top: 10px;
             }
 
             .nav-links a {
-                font-size: 0.85rem;
-                padding: 0.2rem 0.5rem;
+                font-size: 0.8rem;
+                padding: 5px;
             }
 
             .btn-login {
@@ -1070,16 +1169,18 @@
                 font-size: 0.9rem;
                 width: auto;
             }
+
+            .btn-primary {
+                width: auto; /* Impede que o botão ocupe 100% da largura */
+                min-width: 200px;
+                display: inline-block;
+            }
         }
 
         /* --- Ajustes de Alinhamento do Header --- */
         .nav-container {
-            max-width: var(--container-width);
-            margin: 0 auto;
-            padding: 0.5rem 2rem;
-            display: flex;
-            justify-content: space-between; /* Empurra logo e botão para as pontas */
-            align-items: center;
+                flex-wrap: wrap; /* Permite que os links "pulem" para a linha de baixo se necessário */
+                padding: 1rem;
         }
 
         .logo {
@@ -1122,7 +1223,29 @@
             .nav-links {
                 display: none !important; /* Esconde o menu central no mobile para não quebrar o layout */
             }
+
+            /* Ajusta o container de texto para centralizar os filhos */
+            .about-text {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            /* Força a logo a centralizar e remove o alinhamento à esquerda */
+            .about-text .logo {
+                justify-content: center !important; 
+                margin: 0 auto 1.5rem auto !important;
+                width: 100%;
+            }
+
+            /* Garante que o título e parágrafos acompanhem o alinhamento */
+            .about-text h2, 
+            .about-text p {
+                text-align: center;
+            }
         }
+        
     </style>
 </head>
 <body>
