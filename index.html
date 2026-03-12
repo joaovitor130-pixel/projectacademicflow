@@ -1,0 +1,1854 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcademicFlow - Domine sua Produtividade</title>
+    <!-- Fonte Google: Inter (Moderna e limpa) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS Reset & Variáveis --- */
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #4ade80; /* Neon Green */
+            --accent-hover: #22c55e;
+            --font-main: 'Inter', sans-serif;
+            --container-width: 1200px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* --- Header & Navegação --- */
+        header {
+            background-color: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 0.5rem 0;
+        }
+
+        .nav-container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--accent-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            /* Centralizar links com o conteúdo do hero */
+            flex: 1;
+            justify-content: center;
+            margin: 0 1rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .btn-login {
+            padding: 0.5rem 1.5rem;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .btn-login:hover {
+            background-color: var(--accent-color);
+            color: var(--bg-primary);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            padding: 10rem 2rem 4rem;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            align-items: center;
+            gap: 4rem;
+            min-height: 90vh;
+            text-align: center;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem !important;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.35rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            line-height: 1.8;
+        }
+
+        .cta-group {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: var(--bg-primary);
+            padding: 1.2rem 3rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 0 15px rgba(74, 222, 128, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(74, 222, 128, 0.5);
+        }
+
+        /* --- Hero Visual (3 Cards) --- */
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            gap: 2rem;
+        }
+
+        .floating-card {
+            background: var(--bg-secondary);
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 350px;
+            text-align: left;
+        }
+
+        .floating-card::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 100px;
+            height: 100px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.4;
+            z-index: -1;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 1rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 75%;
+            background: var(--accent-color);
+            border-radius: 4px;
+        }
+
+        /* --- Ajuste Responsivo Inteligente --- */
+        @media (max-width: 968px) {
+            .nav-container {
+                flex-direction: column; /* Empilha o logo em cima e o resto embaixo */
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .logo, .auth-nav-wrapper {
+                flex: 0 0 auto;
+                width: 100%;
+                justify-content: center; /* Centraliza logo e botão no mobile */
+            }
+
+            .nav-links {
+                display: flex !important; /* Garante que os nomes apareçam */
+                flex: 0 0 auto;
+                width: 100%;
+                justify-content: flex-start; /* Alinha à esquerda para o scroll */
+                gap: 1.5rem;
+                overflow-x: auto; /* ATENÇÃO: Cria o scroll horizontal se faltar espaço */
+                padding-bottom: 5px;
+                -webkit-overflow-scrolling: touch; /* Scroll suave no iOS */
+                scrollbar-width: none; /* Esconde a barra no Firefox */
+            }
+
+            .nav-links::-webkit-scrollbar {
+                display: none; /* Esconde a barra no Chrome/Safari para ficar limpo */
+            }
+
+            .nav-links li {
+                white-space: nowrap; /* Impede que o texto quebre linha */
+            }
+        }
+
+        /* --- Ajuste de Alinhamento Desktop --- */
+        @media (min-width: 969px) {
+            .nav-container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+
+            .nav-links {
+                flex: 1;
+                justify-content: center;
+                margin: 0 2rem;
+            }
+
+            .logo {
+                flex: 0 0 auto;
+            }
+
+            .btn-login {
+                flex: 0 0 auto;
+            }
+        }
+                /* ==========================================
+        VARIÁVEIS (Para garantir consistência)
+        ========================================== */
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #0b1120;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #4ade80;
+            --accent-hover: #22c55e;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ==========================================
+        ESTILOS GERAIS DA SEÇÃO
+        ========================================== */
+        .features-section, .dashboard-section {
+            padding: 5rem 2rem;
+            background-color: var(--bg-primary);
+        }
+
+        .dashboard-section {
+            background-color: var(--bg-tertiary); /* Fundo um pouco mais escuro para destaque */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* ==========================================
+        PARTE 2: FEATURES GRID
+        ========================================== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background-color: var(--bg-secondary);
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Efeito Hover nos Cards */
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(74, 222, 128, 0.3);
+        }
+
+        /* Linha verde no topo ao passar o mouse */
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent-color);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            background: rgba(74, 222, 128, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .feature-card h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ==========================================
+        PARTE 3: DASHBOARD PREVIEW
+        ========================================== */
+        .app-window {
+            background-color: var(--bg-secondary);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: grid;
+            grid-template-columns: 250px 1fr; /* Sidebar fixa, resto flexível */
+            overflow: hidden;
+            min-height: 500px;
+        }
+
+        /* Sidebar */
+        .app-sidebar {
+            background-color: #162032;
+            padding: 1rem;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .sidebar-header h4 {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+
+        .subject-list {
+            list-style: none;
+        }
+
+        .subject-item {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .subject-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .subject-item.active {
+            background-color: rgba(74, 222, 128, 0.15);
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            opacity: 0.7;
+        }
+
+        /* Main Content */
+        .app-main {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .level-badge {
+            background: rgba(74, 222, 128, 0.2);
+            color: var(--accent-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .dashboard-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        /* Cards Internos do Dashboard */
+        .timer-card, .stats-card {
+            background-color: var(--bg-primary);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .timer-card h4, .stats-card h4 {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Timer Circular */
+        .timer-circle {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timer-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 8px solid #1e293b;
+            border-top: 8px solid var(--accent-color);
+            border-right: 8px solid var(--accent-color);
+            animation: spin 4s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .timer-text {
+            text-align: center;
+        }
+
+        .time-display {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: block;
+        }
+
+        .time-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 1rem;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-start {
+            background: var(--accent-color);
+            color: var(--bg-primary);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-start:hover {
+            background: var(--accent-hover);
+        }
+
+        .btn-pause {
+            background: transparent;
+            border: 1px solid var(--text-secondary);
+            color: var(--text-secondary);
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-pause:hover {
+            border-color: var(--text-primary);
+            color: var(--text-primary);
+        }
+
+        /* Gráfico de Barras CSS */
+        .chart-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            height: 150px;
+            padding-top: 20px;
+            border-bottom: 1px solid var(--border-color);
+            width: 100%;
+        }
+
+        .bar-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .bar {
+            width: 30px;
+            border-radius: 4px 4px 0 0;
+            background: #334155;
+            transition: height 0.5s ease;
+        }
+
+        .bar.active-bar {
+            background: var(--accent-color);
+            box-shadow: 0 0 10px rgba(74, 222, 128, 0.4);
+        }
+
+        /* ==========================================
+        RESPONSIVIDADE
+        ========================================== */
+        @media (max-width: 968px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .app-window {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .app-sidebar {
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                padding: 1.5rem;
+            }
+
+            .dashboard-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .timer-circle {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .time-display {
+                font-size: 2.5rem;
+            }
+        }
+            /* ==========================================
+        ESTILOS DO RODAPÉ (FOOTER)
+        ========================================== */
+        .site-footer {
+            background-color: #020617; /* Um azul ainda mais escuro que o fundo */
+            padding: 4rem 2rem 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.5fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand h4 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .footer-links h4, .footer-newsletter h4 {
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Formulário de Newsletter */
+        .newsletter-form {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            outline: none;
+        }
+
+        .newsletter-form input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .btn-newsletter {
+            background-color: var(--accent-color);
+            color: var(--bg-primary);
+            border: none;
+            padding: 0 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-newsletter:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Botão de Simulação (Estilo Especial) */
+        .btn-simular {
+            background-color: transparent;
+            border: 1px dashed var(--text-secondary);
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .btn-simular:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* ==========================================
+        RESPONSIVIDADE DO FOOTER
+        ========================================== */
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .btn-newsletter {
+                width: 100%;
+            }
+        }
+        /* --- Modal de Autenticação --- */
+        .auth-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--accent-color);
+            z-index: 2000;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+
+        .auth-modal-content {
+            position: relative;
+        }
+
+        .auth-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .auth-tab.active {
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .auth-form h2 {
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .auth-error {
+            font-size: 0.85rem;
+        }
+
+        .auth-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1500;
+        }
+
+        /* --- Estado Logado --- */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-primary);
+            font-weight: bold;
+        }
+
+        .btn-logout {
+            background: transparent;
+            border: 1px solid var(--text-secondary);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-logout:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* --- Seção Sobre --- */
+        .about-section {
+            padding: 8rem 2rem;
+            background: linear-gradient(180deg, var(--bg-tertiary) 0%, var(--bg-primary) 100%);
+        }
+
+        .about-container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 2rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-item span {
+            color: var(--accent-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .about-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #chat-widget {
+                width: 90% !important;
+                right: 5% !important;
+                left: 5% !important;
+                bottom: 80px !important;
+            }
+            
+            .auth-modal {
+                width: 95%;
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .about-stats {
+                grid-template-columns: 1fr; /* Uma coluna só para os números no celular */
+            }
+            
+            .about-text h2 {
+                font-size: 2rem;
+            }
+        }
+
+        /* --- Menu dentro do Hero --- */
+        .hero-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            list-style: none;
+        }
+
+        .hero-nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .hero-nav a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Ajuste para mobile no menu do Hero */
+        @media (max-width: 968px) {
+            .hero-nav {
+                flex-direction: column;
+                gap: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .hero-nav a {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* --- Responsividade Mobile --- */
+        @media (max-width: 968px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 3rem;
+                padding-top: 8rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                margin: 0 auto 2.5rem;
+                font-size: 1.15rem;
+            }
+
+            .hero-visual {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .floating-card {
+                max-width: 100%;
+            }
+
+            /* Ajuste do Header Mobile */
+            .nav-container {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .nav-links {
+                display: flex !important;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.8rem;
+                width: 100%;
+                margin-top: 0.5rem;
+            }
+
+            .nav-links a {
+                font-size: 0.85rem;
+                padding: 0.2rem 0.5rem;
+            }
+
+            .btn-login {
+                padding: 0.4rem 1rem;
+                font-size: 0.9rem;
+                width: auto;
+            }
+        }
+
+        /* --- Ajustes de Alinhamento do Header --- */
+        .nav-container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0.5rem 2rem;
+            display: flex;
+            justify-content: space-between; /* Empurra logo e botão para as pontas */
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            flex: 1; /* Ocupa espaço à esquerda */
+            justify-content: flex-start;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            flex: 2; /* Ocupa o espaço central */
+            justify-content: center; /* Centraliza os links no meio da tela */
+        }
+
+        /* Criamos um container para o botão de login para equilibrar o flexbox */
+        .auth-nav-wrapper {
+            flex: 1; /* Ocupa espaço à direita */
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        /* --- Ajuste Responsivo (Mobile) --- */
+        @media (max-width: 968px) {
+            .nav-container {
+                justify-content: space-between;
+            }
+            
+            .logo, .auth-nav-wrapper {
+                flex: 0 0 auto; /* No mobile, eles não precisam ocupar espaços iguais */
+            }
+
+            .nav-links {
+                display: none !important; /* Esconde o menu central no mobile para não quebrar o layout */
+            }
+        }
+    </style>
+</head>
+<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<header>
+    <div class="nav-container">
+        <a href="#" class="logo">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L2 22H22L12 2ZM12 6L18.5 19H5.5L12 6ZM12 10L10 15H14L12 10Z"/>
+            </svg>
+            AcademicFlow
+        </a>
+        
+        <ul class="nav-links">
+            <li><a href="#features">Recursos</a></li>
+            <li><a href="#dashboard-preview">Dashboard</a></li>
+            <li><a href="#about">Sobre</a></li>
+        </ul>
+
+        <div class="auth-nav-wrapper">
+            <a href="#" class="btn-login btn-open-auth" data-type="login">Entrar</a>
+        </div>
+    </div>
+</header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Transforme o caos em <span style="color: var(--accent-color);">fluxo</span>.</h1>
+            <p>A plataforma definitiva para estudantes universitários. Gerencie matérias, domine o Pomodoro e mantenha sua energia alta sem burnout.</p>
+            <div class="cta-group">
+                <a href="#" class="btn-primary btn-open-auth" data-type="signup">Começar Agora</a>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <!-- Card 1: Cálculo II -->
+            <div class="floating-card">
+                <div class="card-header">
+                    <span style="font-weight: 600;">Cálculo II</span>
+                    <span style="color: var(--accent-color);">Hoje</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span style="font-size: 0.9rem; color: var(--text-secondary);">Progresso da Semana</span>
+                    <span style="font-size: 0.9rem; font-weight: bold;">75%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <div style="margin-top: 1.5rem; display: flex; gap: 10px;">
+                    <div style="background: rgba(255,255,255,0.1); padding: 5px 10px; border-radius: 4px; font-size: 0.8rem;">⏱️ 25m</div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 5px 10px; border-radius: 4px; font-size: 0.8rem;">📚 Leitura</div>
+                </div>
+            </div>
+
+            <!-- Card 2: Algoritmos I -->
+            <div class="floating-card">
+                <div class="card-header">
+                    <span style="font-weight: 600;">Algoritmos I</span>
+                    <span style="color: var(--accent-color);">terça</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span style="font-size: 0.9rem; color: var(--text-secondary);">Progresso da Semana</span>
+                    <span style="font-size: 0.9rem; font-weight: bold;">60%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 60%;"></div>
+                </div>
+                <div style="margin-top: 1.5rem; display: flex; gap: 10px;">
+                    <div style="background: rgba(255,255,255,0.1); padding: 5px 10px; border-radius: 4px; font-size: 0.8rem;">⏱️ 25m</div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 5px 10px; border-radius: 4px; font-size: 0.8rem;">💻 Código</div>
+                </div>
+            </div>
+
+            <!-- Card 3: Design de UI -->
+            <div class="floating-card">
+                <div class="card-header">
+                    <span style="font-weight: 600;">Design de UI</span>
+                    <span style="color: var(--accent-color);">Quinta</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span style="font-size: 0.9rem; color: var(--text-secondary);">Progresso da Semana</span>
+                    <span style="font-size: 0.9rem; font-weight: bold;">45%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 45%;"></div>
+                </div>
+                <div style="margin-top: 1.5rem; display: flex; gap: 10px;">
+                    <div style="background: rgba(255,255,255,0.1); padding: 5px 10px; border-radius: 4px; font-size: 0.8rem;">⏱️ 25m</div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 5px 10px; border-radius: 4px; font-size: 0.8rem;">🎨 Criativo</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ========================================== -->
+<!-- PARTE 2: SEÇÃO DE FUNCIONALIDADES (FEATURES) -->
+<!-- ========================================== -->
+<section id="features" class="features-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Ferramentas para o seu Sucesso</h2>
+            <p>Tudo o que você precisa para organizar a faculdade e manter o foco.</p>
+        </div>
+
+        <div class="features-grid">
+            <!-- Card 1: Pomodoro -->
+            <div class="feature-card">
+                <div class="icon-box">
+                    <span>🍅</span>
+                </div>
+                <h3>Pomodoro Imersivo</h3>
+                <p>Bloqueie distrações e foque em blocos de 25 minutos. O modo "Deep Focus" silencia notificações do sistema.</p>
+            </div>
+
+            <!-- Card 2: Gestão -->
+            <div class="feature-card">
+                <div class="icon-box">
+                    <span>📚</span>
+                </div>
+                <h3>Gestão de Matérias</h3>
+                <p>Organize Cálculo, Algoritmos e Projetos em um só lugar. Defina prazos e personalize os seus estudos para o seu melhor desempenho.</p>
+            </div>
+
+            <!-- Card 3: Energia -->
+            <div class="feature-card">
+                <div class="icon-box">
+                    <span>⚡</span>
+                </div>
+                <h3>Barra de Energia</h3>
+                <p>Gamifique seus estudos. Ganhe XP e suba de nível mantendo sua barra de energia cheia e evitando burnout.</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="dashboard-preview" class="dashboard-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Sua Sala de Controle</h2>
+            <p>Uma visão clara do que você precisa fazer hoje.</p>
+        </div>
+
+        <!-- Container do App (Simulação) -->
+        <div class="app-window">
+            
+            <!-- Sidebar Lateral -->
+            <aside class="app-sidebar">
+                <div class="sidebar-header">
+                    <h4>Minhas Matérias</h4>
+                </div>
+                <ul class="subject-list">
+                    <li class="subject-item active">
+                        <span>Algoritmos I</span>
+                        <span class="tag">Hoje</span>
+                    </li>
+                    <li class="subject-item">
+                        <span>Cálculo II</span>
+                        <span class="tag">Amanhã</span>
+                    </li>
+                    <li class="subject-item">
+                        <span>Design de UI</span>
+                        <span class="tag">Quinta</span>
+                    </li>
+                    <li class="subject-item">
+                        <span>Redes de Computadores</span>
+                        <span class="tag">Sexta</span>
+                    </li>
+                </ul>
+            </aside>
+
+            <!-- Área Principal -->
+            <main class="app-main">
+
+
+                <!-- Conteúdo do Dashboard -->
+                <div class="dashboard-content">
+                    
+                    <!-- Coluna Esquerda: Timer -->
+                    <div class="dashboard-column">
+                        <div class="timer-card">
+                            <h4>Foco Atual</h4>
+                            <div class="timer-circle">
+                                <div class="timer-ring"></div>
+                                <div class="timer-text">
+                                    <span id="timer-display" class="time-display">24:59</span>
+                                    <span class="time-label">Minutos</span>
+                                </div>
+                            </div>
+                            <div class="timer-controls">
+                                <button id="btn-start" class="btn-start">Iniciar</button>
+                                <button id="btn-pause" class="btn-pause">Pausar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Coluna Direita: Gráfico -->
+                    <div class="dashboard-column">
+                        <div class="stats-card">
+                            <h4>Horas Estudadas (Semana)</h4>
+                            <div class="chart-container">
+                                <!-- Barras do Gráfico -->
+                                <div class="bar-group">
+                                    <div class="bar" style="height: 40%;"></div>
+                                    <span>Seg</span>
+                                </div>
+                                <div class="bar-group">
+                                    <div class="bar" style="height: 60%;"></div>
+                                    <span>Ter</span>
+                                </div>
+                                <div class="bar-group">
+                                    <div class="bar" style="height: 30%;"></div>
+                                    <span>Qua</span>
+                                </div>
+                                <div class="bar-group">
+                                    <div class="bar active-bar" style="height: 85%;"></div>
+                                    <span>Qui</span>
+                                </div>
+                                <div class="bar-group">
+                                    <div class="bar" style="height: 50%;"></div>
+                                    <span>Sex</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="grid-column: span 2; text-align: center; margin-top: 2rem;">
+                        <p style="margin-bottom: 1rem; color: var(--text-secondary);">Gostou da interface? Comece a organizar seus estudos agora.</p>
+                        <a href="#" class="btn-primary btn-open-auth" data-type="signup">Criar minha conta gratuita</a>
+                    </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</section>
+
+<section id="about" class="about-section">
+    <div class="about-container">
+        <div class="about-text">
+            <div class="logo" style="margin-bottom: 1rem; font-size: 1.2rem; justify-content: flex-start;">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 22H22L12 2ZM12 6L18.5 19H5.5L12 6ZM12 10L10 15H14L12 10Z"/>
+                </svg>
+                AcademicFlow
+            </div>
+            
+            <h2>Por que o AcademicFlow?</h2>
+            <p>
+                Nascemos da necessidade de equilibrar a alta performance acadêmica com a saúde mental. 
+                O AcademicFlow não é apenas um gerenciador de tarefas, é um ecossistema projetado para 
+                estudantes que buscam clareza mental e organização real.
+            </p>
+            <p>
+                Nossa missão é eliminar o "overwhelmed" (sentimento de sobrecarga) através de ferramentas 
+                cientificamente comprovadas como o método Pomodoro e a gamificação do aprendizado.
+            </p>
+            <a href="#" class="btn-open-auth" data-type="signup" style="color: var(--accent-color); text-decoration: none; font-weight: 700;">
+                Junte-se à nossa comunidade &rarr;
+            </a>
+        </div>
+
+        <div class="about-stats">
+            <div class="stat-item">
+                <h3>+15k</h3>
+                <span>Alunos Ativos</span>
+            </div>
+            <div class="stat-item">
+                <h3>92%</h3>
+                <span>Mais Foco</span>
+            </div>
+            <div class="stat-item">
+                <h3>+500h</h3>
+                <span>Poupadas/Mês</span>
+            </div>
+            <div class="stat-item">
+                <h3>4.9/5</h3>
+                <span>Avaliação</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================================== -->
+<!-- PARTE 4: RODAPÉ (FOOTER) -->
+<!-- ========================================== -->
+<footer class="site-footer">
+    <div class="container footer-content">
+        <!-- Coluna 1: Logo e Sobre -->
+        <div class="footer-brand">
+            <a href="#" class="logo">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 22H22L12 2ZM12 6L18.5 19H5.5L12 6ZM12 10L10 15H14L12 10Z"/>
+                </svg>
+                AcademicFlow
+            </a>
+            <p style="color: var(--text-secondary); margin-top: 1rem; max-width: 300px;">
+                A plataforma que transforma a ansiedade da faculdade em fluxo de produtividade.
+            </p>
+        </div>
+
+        <!-- Coluna 2: Links Rápidos -->
+        <div class="footer-links">
+            <h4>Navegação</h4>
+            <ul>
+                <li><a href="#features">Recursos</a></li>
+                <li><a href="#dashboard-preview">Dashboard</a></li>
+                <li><a href="#" class="btn-open-auth" data-type="login">Login</a></li>
+                <li><a href="#" id="open-chat-support">Suporte / Chat</a></li>
+            </ul>
+        </div>
+
+        <!-- Coluna 3: Newsletter -->
+        <div class="footer-newsletter">
+            <h4>Fique por dentro</h4>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
+                Receba dicas de produtividade semanalmente.
+            </p>
+            <form id="newsletter-form" class="newsletter-form" onsubmit="event.preventDefault(); alert('Obrigado por se inscrever!');">
+                <input id="newsletter-email" type="email" placeholder="Seu melhor e-mail" required ...>
+            </form>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; 2023 AcademicFlow. Desenvolvido para fins educacionais.</p>
+    </div>
+    <!-- Modal de Login/Registro -->
+    <div id="auth-modal" class="auth-modal" style="display: none;">
+        <div class="auth-modal-content">
+            <button id="close-modal" class="auth-close-btn">&times;</button>
+            
+            <!-- Abas de Navegação -->
+            <div class="auth-tabs">
+                <button id="tab-login" class="auth-tab active">Login</button>
+                <button id="tab-signup" class="auth-tab">Criar Conta</button>
+            </div>
+
+            <!-- Formulário de Login -->
+            <form id="login-form" class="auth-form">
+                <h2>Bem-vindo de volta!</h2>
+                <div class="form-group">
+                    <label for="login-email">E-mail</label>
+                    <input id="login-email" type="email" placeholder="seu@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Senha</label>
+                    <input id="login-password" type="password" placeholder="********" required>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%;">Entrar</button>
+                <p id="login-error" class="auth-error" style="color: #ef4444; margin-top: 10px; display: none;"></p>
+            </form>
+
+            <!-- Formulário de Cadastro -->
+            <form id="signup-form" class="auth-form" style="display: none;">
+                <h2>Crie sua conta</h2>
+                <div class="form-group">
+                    <label for="signup-name">Nome Completo</label>
+                    <input id="signup-name" type="text" placeholder="Seu nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">E-mail</label>
+                    <input id="signup-email" type="email" placeholder="seu@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Senha</label>
+                    <input id="signup-password" type="password" placeholder="********" required>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%;">Cadastrar</button>
+                <p id="signup-error" class="auth-error" style="color: #ef4444; margin-top: 10px; display: none;"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Overlay de Fundo -->
+    <div id="auth-overlay" class="auth-overlay" style="display: none;"></div>
+
+    <div id="chat-widget" style="display: none; position: fixed; bottom: 20px; right: 20px; width: 300px; background: var(--bg-secondary); border: 1px solid var(--accent-color); border-radius: 12px; z-index: 3000; box-shadow: 0 10px 25px rgba(0,0,0,0.5); overflow: hidden; font-family: var(--font-main);">
+        <div style="background: var(--accent-color); color: var(--bg-primary); padding: 1rem; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
+            <span>🤖 FlowBot Support</span>
+            <button id="close-chat" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--bg-primary);">×</button>
+        </div>
+        <div id="chat-messages" style="height: 250px; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; font-size: 0.9rem; color: var(--text-primary);">
+            <div style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 8px; align-self: flex-start; max-width: 80%;">
+                Olá! Sou o assistente virtual do AcademicFlow. Como posso te ajudar hoje?
+            </div>
+        </div>
+        <div style="padding: 1rem; border-top: 1px solid var(--border-color); display: flex; gap: 5px;">
+            <input type="text" id="chat-input" placeholder="Digite sua dúvida..." style="flex: 1; background: var(--bg-primary); border: 1px solid var(--border-color); color: white; padding: 8px; border-radius: 4px; outline: none;">
+            <button id="send-chat" style="background: var(--accent-color); border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">➔</button>
+        </div>
+    </div>
+
+    <div id="chat-trigger" style="position: fixed; bottom: 20px; right: 20px; background: var(--accent-color); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2900; box-shadow: 0 5px 15px rgba(74, 222, 128, 0.4); font-size: 1.5rem;">
+        💬
+    </div>
+
+    <script>
+        // Verifica se tem sessão ao carregar a nova página
+        const session = localStorage.getItem('academicflow_session');
+        if (session) {
+            const user = JSON.parse(session);
+            // Exibe o nome do usuário no header (se tiver header)
+            // Exemplo simples:
+            // document.getElementById('user-name').textContent = user.name;
+        }
+
+        // Função de Logout
+        function fazerLogout() {
+            localStorage.removeItem('academicflow_session');
+            localStorage.removeItem('academicflow_users'); // Opcional: limpa usuários também
+             window.location.href = 'index.html'; // Volta para a página inicial
+        }
+    </script>
+            
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const timerDisplay = document.getElementById('timer-display');
+            const btnStart = document.getElementById('btn-start');
+            const btnPause = document.getElementById('btn-pause');
+            const timerRing = document.querySelector('.timer-ring');
+            
+            let timeLeft = 1500; // 25 minutos em segundos
+            let timerInterval = null;
+            let isRunning = false;
+
+            function updateDisplay() {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+
+            function startTimer() {
+                if (isRunning) return;
+                isRunning = true;
+                timerRing.style.animationPlayState = 'running';
+                timerRing.style.animation = 'spin 4s linear infinite'; // Reinicia animação visual
+                
+                timerInterval = setInterval(() => {
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                        updateDisplay();
+                    } else {
+                        clearInterval(timerInterval);
+                        isRunning = false;
+                        timerRing.style.animation = 'none';
+                        alert('Tempo esgotado!');
+                    }
+                }, 1000);
+            }
+
+            function pauseTimer() {
+                clearInterval(timerInterval);
+                isRunning = false;
+                timerRing.style.animationPlayState = 'paused';
+            }
+
+            btnStart.addEventListener('click', startTimer);
+            btnPause.addEventListener('click', pauseTimer);
+        });
+
+        // --- Gerenciamento de Autenticação ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('auth-modal');
+            const overlay = document.getElementById('auth-overlay');
+            const closeBtn = document.getElementById('close-modal');
+            const tabLogin = document.getElementById('tab-login');
+            const tabSignup = document.getElementById('tab-signup');
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const loginError = document.getElementById('login-error');
+            const signupError = document.getElementById('signup-error');
+
+            // --- Função para Abrir Modal ---
+            document.addEventListener('click', (e) => {
+                if (e.target.classList.contains('btn-open-auth')) {
+                    e.preventDefault();
+                    modal.style.display = 'block';
+                    overlay.style.display = 'block';
+
+                    if (e.target.getAttribute('data-type') === 'signup') {
+                        tabSignup.click();
+                    } else {
+                        tabLogin.click();
+                    }
+                }
+            });
+
+            // --- Fechar Modal ---
+            const closeModal = () => {
+                modal.style.display = 'none';
+                overlay.style.display = 'none';
+            };
+            closeBtn.addEventListener('click', closeModal);
+            overlay.addEventListener('click', closeModal);
+
+            // --- Alternar Abas ---
+            tabLogin.addEventListener('click', () => {
+                tabLogin.classList.add('active');
+                tabSignup.classList.remove('active');
+                loginForm.style.display = 'block';
+                signupForm.style.display = 'none';
+                loginError.style.display = 'none';
+                signupError.style.display = 'none';
+            });
+
+            tabSignup.addEventListener('click', () => {
+                tabSignup.classList.add('active');
+                tabLogin.classList.remove('active');
+                signupForm.style.display = 'block';
+                loginForm.style.display = 'none';
+                loginError.style.display = 'none';
+                signupError.style.display = 'none';
+            });
+
+            // --- Lógica de Login ---
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // CORREÇÃO: Selecionar os elementos do DOM corretamente
+                const loginEmailInput = document.getElementById('login-email');
+                const loginPasswordInput = document.getElementById('login-password');
+                
+                const email = loginEmailInput.value;
+                const password = loginPasswordInput.value;
+                
+                const users = JSON.parse(localStorage.getItem('academicflow_users') || '[]');
+                const user = users.find(u => u.email === email && u.password === password);
+
+                if (user) {
+                    localStorage.setItem('academicflow_session', JSON.stringify(user));
+                    // Redirecionamento
+                    window.location.href = "./index2.html";
+                } else {
+                    loginError.textContent = 'E-mail ou senha incorretos.';
+                    loginError.style.display = 'block';
+                }
+            });
+
+            // --- Lógica de Cadastro ---
+            signupForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                // CORREÇÃO: Selecionar os elementos do DOM corretamente
+                const signupNameInput = document.getElementById('signup-name');
+                const signupEmailInput = document.getElementById('signup-email');
+                const signupPasswordInput = document.getElementById('signup-password');
+
+                const name = signupNameInput.value;
+                const email = signupEmailInput.value;
+                const password = signupPasswordInput.value;
+
+                const users = JSON.parse(localStorage.getItem('academicflow_users') || '[]');
+                
+                if (users.find(u => u.email === email)) {
+                    signupError.textContent = 'E-mail já cadastrado.';
+                    signupError.style.display = 'block';
+                    return;
+                }
+
+                const newUser = { name, email, password };
+                users.push(newUser);
+                
+                localStorage.setItem('academicflow_users', JSON.stringify(users));
+                localStorage.setItem('academicflow_session', JSON.stringify(newUser));
+
+                // Redirecionamento
+                window.location.href = "./index2.html";
+            });
+
+            // --- Logout ---
+            function fazerLogout() {
+                localStorage.removeItem('academicflow_session');
+                updateUIForLogout();
+                // Opcional: voltar para a home após logout
+                // window.location.href = "index.html";
+            }
+
+            // --- Atualizar UI para Login ---
+            function updateUIForLogin(user) {
+                const navContainer = document.querySelector('.nav-container');
+                const loginBtn = navContainer.querySelector('.btn-login');
+                const novaPagina = "./index2.html"; 
+
+                loginBtn.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <a href="${novaPagina}" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;">
+                            <span class="user-avatar">${user.name.charAt(0).toUpperCase()}</span>
+                            <span>${user.name}</span>
+                        </a>
+                        <button id="btn-logout" class="btn-logout" style="margin-left: 10px;">Sair</button>
+                    </div>
+                `;
+
+                document.getElementById('btn-logout').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    fazerLogout();
+                });
+            }
+
+            // --- Atualizar UI para Logout ---
+            function updateUIForLogout() {
+                const navContainer = document.querySelector('.nav-container');
+                const loginBtn = navContainer.querySelector('.btn-login');
+                
+                loginBtn.innerHTML = 'Entrar';
+                loginBtn.style.cursor = 'pointer';
+                loginBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    modal.style.display = 'block';
+                    overlay.style.display = 'block';
+                });
+            }
+
+            // --- Verificar Sessão ao Carregar ---
+            function checkSession() {
+                const session = localStorage.getItem('academicflow_session');
+                if (session) {
+                    const user = JSON.parse(session);
+                    updateUIForLogin(user);
+                }
+            }
+            
+            // Iniciar verificação
+            checkSession();
+        });
+
+        // --- Timer Pomodoro ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const timerDisplay = document.getElementById('timer-display');
+            const btnStart = document.getElementById('btn-start');
+            const btnPause = document.getElementById('btn-pause');
+            const timerRing = document.querySelector('.timer-ring');
+            
+            let timeLeft = 1500; // 25 minutos em segundos
+            let timerInterval = null;
+            let isRunning = false;
+
+            function updateDisplay() {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+
+            function startTimer() {
+                if (isRunning) return;
+                isRunning = true;
+                timerRing.style.animationPlayState = 'running';
+                timerRing.style.animation = 'spin 4s linear infinite';
+                
+                timerInterval = setInterval(() => {
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                        updateDisplay();
+                    } else {
+                        clearInterval(timerInterval);
+                        isRunning = false;
+                        timerRing.style.animation = 'none';
+                        alert('Tempo esgotado!');
+                    }
+                }, 1000);
+            }
+
+            function pauseTimer() {
+                clearInterval(timerInterval);
+                isRunning = false;
+                timerRing.style.animationPlayState = 'paused';
+            }
+
+            if(btnStart) btnStart.addEventListener('click', startTimer);
+            if(btnPause) btnPause.addEventListener('click', pauseTimer);
+        });
+
+        // --- Chat Widget ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatWidget = document.getElementById('chat-widget');
+            const chatTrigger = document.getElementById('chat-trigger');
+            const closeChat = document.getElementById('close-chat');
+            const openChatSupport = document.getElementById('open-chat-support');
+            const chatInput = document.getElementById('chat-input');
+            const sendChat = document.getElementById('send-chat');
+            const chatMessages = document.getElementById('chat-messages');
+
+            const toggleChat = (e) => {
+                if(e) e.preventDefault();
+                const isVisible = chatWidget.style.display === 'block';
+                chatWidget.style.display = isVisible ? 'none' : 'block';
+                chatTrigger.style.display = isVisible ? 'flex' : 'none';
+            };
+
+            if(chatTrigger) chatTrigger.addEventListener('click', toggleChat);
+            if(closeChat) closeChat.addEventListener('click', toggleChat);
+            if(openChatSupport) openChatSupport.addEventListener('click', toggleChat);
+
+            if(sendChat) sendChat.addEventListener('click', () => {
+                const text = chatInput.value.trim();
+                if (!text) return;
+
+                appendMessage(text, 'user');
+                chatInput.value = '';
+
+                setTimeout(() => {
+                    const botResponse = "Recebi sua dúvida! No momento estou em treinamento, mas você pode conferir nossa aba 'Recursos' ou 'Sobre' para entender mais sobre o AcademicFlow.";
+                    appendMessage(botResponse, 'bot');
+                }, 800);
+            });
+
+            function appendMessage(text, side) {
+                const msg = document.createElement('div');
+                msg.style.padding = '8px';
+                msg.style.borderRadius = '8px';
+                msg.style.maxWidth = '80%';
+                msg.style.marginBottom = '5px';
+                
+                if (side === 'user') {
+                    msg.style.background = 'var(--accent-color)';
+                    msg.style.color = 'var(--bg-primary)';
+                    msg.style.alignSelf = 'flex-end';
+                } else {
+                    msg.style.background = 'rgba(255,255,255,0.05)';
+                    msg.style.color = 'var(--text-primary)';
+                    msg.style.alignSelf = 'flex-start';
+                }
+                
+                msg.textContent = text;
+                chatMessages.appendChild(msg);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        });
+    </script>
+</body>
+</html>

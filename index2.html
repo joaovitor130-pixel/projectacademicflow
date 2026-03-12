@@ -1,0 +1,2587 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - AcademicFlow</title>
+    <!-- Fonte Google: Inter (Moderna e limpa) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS Reset & Variáveis --- */
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #0b1120;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #4ade80; /* Neon Green */
+            --accent-hover: #22c55e;
+            --font-main: 'Inter', sans-serif;
+            --container-width: 1200px;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* --- Header & Navegação --- */
+        header {
+            background-color: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--accent-color);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-primary);
+            font-weight: bold;
+        }
+
+        .btn-logout {
+            background: transparent;
+            border: 1px solid var(--text-secondary);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .btn-logout:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* --- Container Principal --- */
+        .dashboard-container {
+            padding: 100px 2rem 2rem;
+            max-width: var(--container-width);
+            margin: 0 auto;
+        }
+
+        /* --- Seção de Boas-vindas --- */
+        .welcome-section {
+            margin-bottom: 3rem;
+        }
+
+        .welcome-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .welcome-section p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* --- Grid do Dashboard --- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        /* --- Cards --- */
+        .card {
+            background-color: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .card h3 {
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        /* --- Timer Circular --- */
+        .timer-circle {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timer-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 8px solid #1e293b;
+            border-top: 8px solid var(--accent-color);
+            border-right: 8px solid var(--accent-color);
+            animation: spin 4s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .timer-text {
+            text-align: center;
+        }
+
+        .time-display {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: block;
+        }
+
+        .time-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 1rem;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-start {
+            background: var(--accent-color);
+            color: var(--bg-primary);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-start:hover {
+            background: var(--accent-hover);
+        }
+
+        .btn-pause {
+            background: transparent;
+            border: 1px solid var(--text-secondary);
+            color: var(--text-secondary);
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-pause:hover {
+            border-color: var(--text-primary);
+            color: var(--text-primary);
+        }
+
+        /* --- Lista de Matérias --- */
+        .subject-list {
+            list-style: none;
+        }
+
+        .subject-item {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .subject-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .subject-item.active {
+            background-color: rgba(74, 222, 128, 0.15);
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            opacity: 0.7;
+        }
+
+        /* --- Gráfico de Barras --- */
+        .chart-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            height: 150px;
+            padding-top: 20px;
+            border-bottom: 1px solid var(--border-color);
+            width: 100%;
+        }
+
+        .bar-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .bar {
+            width: 30px;
+            border-radius: 4px 4px 0 0;
+            background: #334155;
+            transition: height 0.5s ease;
+        }
+
+        .bar.active-bar {
+            background: var(--accent-color);
+            box-shadow: 0 0 10px rgba(74, 222, 128, 0.4);
+        }
+
+        /* --- Responsividade --- */
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timer-circle {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .time-display {
+                font-size: 2.5rem;
+            }
+        }
+        /* Input para adicionar matéria */
+        #nova-materia {
+            flex: 1;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            outline: none;
+        }
+
+        #nova-materia:focus {
+            border-color: var(--accent-color);
+        }
+
+        /* Select para dia de estudo */
+        #dia-estudo {
+            flex: 1;
+            min-width: 120px;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            outline: none;
+            cursor: pointer;
+        }
+
+        #dia-estudo:focus {
+            border-color: var(--accent-color);
+        }
+
+        #dia-estudo option {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        
+        /* Botão de Reiniciar */
+        .btn-reset {
+            background: transparent;
+            border: 1px solid var(--text-secondary);
+            color: var(--text-secondary);
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-reset:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* Notificação de Conclusão */
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-color);
+            color: var(--bg-primary);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(74, 222, 128, 0.3);
+            z-index: 2000;
+            display: none;
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from { top: -50px; opacity: 0; }
+            to { top: 20px; opacity: 1; }
+        }
+
+        /* Animação de Pulso no Anel */
+        .timer-ring.finished {
+            border-color: var(--accent-color);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Estilos para Arquivos */
+        .file-item {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .file-item:hover {
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-icon {
+            font-size: 1.5rem;
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .file-subject {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-download {
+            background: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .btn-download:hover {
+            background: var(--accent-color);
+            color: var(--bg-primary);
+        }
+
+        .btn-delete {
+            background: transparent;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+
+        .btn-delete:hover {
+            transform: scale(1.1);
+        }
+
+        /* Estilos para Notas */
+        .nota-item {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .nota-item:hover {
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .nota-badge {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .nota-badge.baixa {
+            background: #ef4444;
+            color: white;
+        }
+
+        .nota-badge.medio {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .nota-badge.alta {
+            background: var(--accent-color);
+            color: var(--bg-primary);
+        }
+
+        .nota-subject {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .nota-unidade {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .nota-media {
+            text-align: right;
+            padding: 1rem;
+            background: rgba(74, 222, 128, 0.1);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .nota-media h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .nota-media .media-valor {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .nota-media .media-necessaria {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .nota-media .media-necessaria.positiva {
+            color: #ef4444;
+        }
+
+        .nota-media .media-necessativa.negativa {
+            color: var(--accent-color);
+        }
+
+        .btn-delete {
+            background: transparent;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+
+        .btn-delete:hover {
+            transform: scale(1.1);
+        }
+
+        .nota-individual {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+        }
+
+        .nota-individual-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nota-individual-badge {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .nota-individual-details {
+            display: flex;
+            flex-direction: column;
+            margin-left: 10px;
+        }
+
+        .nota-individual-subject {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .nota-individual-unit {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .nota-individual-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Estilos para Horas Estudadas */
+        .registro-item {
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .registro-item:hover {
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .registro-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .registro-horas {
+            background: var(--accent-color);
+            color: var(--bg-primary);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .registro-dia {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .registro-materia {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .btn-delete {
+            background: transparent;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+
+        .btn-delete:hover {
+            transform: scale(1.1);
+        }
+
+        .bar-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .bar {
+            width: 30px;
+            border-radius: 4px 4px 0 0;
+            background: #334155;
+            transition: height 0.5s ease;
+        }
+
+        .bar.active-bar {
+            background: var(--accent-color);
+            box-shadow: 0 0 10px rgba(74, 222, 128, 0.4);
+        }
+
+        .bar-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(74, 222, 128, 0.1);
+            border-radius: 8px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+        
+        /* Estilos para Horas Estudadas */
+        .registro-item {
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .registro-item:hover {
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .registro-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .registro-horas {
+            background: var(--accent-color);
+            color: var(--bg-primary);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .registro-dia {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .registro-materia {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .btn-delete {
+            background: transparent;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+
+        .btn-delete:hover {
+            transform: scale(1.1);
+        }
+
+        /* --- GRÁFICO DE BARRAS - VERSÃO AUMENTADA --- */
+        .chart-container {
+            height: 300px !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: flex-end !important;
+            padding-top: 40px !important;
+            padding-bottom: 30px !important;
+            border-bottom: 2px solid var(--border-color) !important;
+        }
+
+        .bar-group {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 20px !important;
+            width: 100% !important;
+        }
+
+        .bar {
+            width: 60px !important;
+            height: 5px !important;
+            border-radius: 10px 10px 0 0 !important;
+            background: #334155 !important;
+            transition: height 0.8s ease !important;
+            min-height: 5px !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+            position: relative !important;
+        }
+
+        .bar.active-bar {
+            background: var(--accent-color) !important;
+            box-shadow: 0 0 20px rgba(74, 222, 128, 0.8) !important;
+        }
+
+        .bar-label {
+            font-size: 1rem !important;
+            color: var(--text-primary) !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+        }
+
+        /* Tooltip para mostrar horas */
+        .bar:hover::after {
+            content: attr(data-horas) "h";
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-color);
+            color: var(--bg-primary);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        /* --- Estilos do Relatório Mensal --- */
+        .materia-relatorio-item {
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .materia-relatorio-item:hover {
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .materia-relatorio-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .materia-relatorio-horas {
+            background: var(--accent-color);
+            color: var(--bg-primary);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .materia-relatorio-nome {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .materia-relatorio-dias {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .materia-relatorio-bar {
+            width: 100px;
+            height: 6px;
+            background: #334155;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .materia-relatorio-bar-fill {
+            height: 100%;
+            background: var(--accent-color);
+            transition: width 0.5s ease;
+        }
+
+        .relatorio-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .relatorio-badge.excelente {
+            background: var(--accent-color);
+            color: var(--bg-primary);
+        }
+
+        .relatorio-badge.bom {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .relatorio-badge.regular {
+            background: #ef4444;
+            color: white;
+        }
+
+        .relatorio-comparativo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .comparativo-item {
+            text-align: center;
+        }
+
+        .comparativo-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .comparativo-valor {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .comparativo-mudanca {
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        .comparativo-mudanca.positiva {
+            color: var(--accent-color);
+        }
+
+        .comparativo-mudanca.negativa {
+            color: #ef4444;
+        }
+
+        /* Tooltip para mostrar horas nas barras semanais */
+        .bar:hover::after {
+            content: attr(data-horas) "h";
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-color);
+            color: var(--bg-primary);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        /* Barra de XP */
+        #barra-xp {
+            background: var(--accent-color);
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px rgba(74, 222, 128, 0.4);
+        }
+
+        /* Animação de Level Up */
+        @keyframes levelUp {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .nivel-up {
+            animation: levelUp 0.5s ease;
+        }
+
+        /* Animação de Level Up */
+        @keyframes levelUp {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.3); }
+            50% { transform: scale(1.1); }
+            75% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes xpGlow {
+            0% { box-shadow: 0 0 10px rgba(74, 222, 128, 0.4); }
+            50% { box-shadow: 0 0 30px rgba(74, 222, 128, 0.8); }
+            100% { box-shadow: 0 0 10px rgba(74, 222, 128, 0.4); }
+        }
+
+        .nivel-up {
+            animation: levelUp 0.5s ease;
+        }
+
+        /* Animação de XP */
+        #barra-xp {
+            background: var(--accent-color);
+            transition: width 0.5s ease, box-shadow 0.5s ease, transform 0.5s ease;
+            box-shadow: 0 0 10px rgba(74, 222, 128, 0.4);
+        }
+
+        #barra-xp.glow {
+            animation: xpGlow 1s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 22H22L12 2ZM12 6L18.5 19H5.5L12 6ZM12 10L10 15H14L12 10Z"/>
+                </svg>
+                AcademicFlow
+            </a>
+            <div class="user-profile">
+                <span class="user-avatar" id="user-avatar">U</span>
+                <span id="user-name">Usuário</span>
+                <button onclick="fazerLogout()" class="btn-logout">Sair</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <div class="dashboard-container">
+        <div class="welcome-section">
+            <h1 id="welcome-text">Olá, Estudante!</h1>
+            <p>Aqui começa sua nova página de estudos.</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Timer Pomodoro -->
+            <div class="card">
+                <h3>Foco Atual</h3>
+                <div class="timer-circle">
+                    <div class="timer-ring"></div>
+                    <div class="timer-text">
+                        <span id="timer-display" class="time-display">25:00</span>
+                        <span class="time-label">Minutos</span>
+                    </div>
+                </div>
+                <div class="timer-controls">
+                    <button id="btn-start" class="btn-start">Iniciar</button>
+                    <button id="btn-pause" class="btn-pause">Pausar</button>
+                    <button id="btn-reset" class="btn-reset">Reiniciar</button>
+                </div>
+            </div>
+
+            <!-- Lista de Matérias -->
+            <div class="card">
+                <h3>Minhas Matérias</h3>
+                <!-- Formulário para adicionar matéria -->
+                <div style="display: flex; gap: 10px; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                    <input type="text" id="nova-materia" placeholder="Nome da matéria" style="flex: 2; min-width: 200px; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary);">
+                    
+                    <select id="dia-estudo" style="flex: 1; min-width: 120px; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary);">
+                        <option value="Segunda">Segunda</option>
+                        <option value="Terça">Terça</option>
+                        <option value="Quarta">Quarta</option>
+                        <option value="Quinta">Quinta</option>
+                        <option value="Sexta">Sexta</option>
+                        <option value="Sábado">Sábado</option>
+                        <option value="Domingo">Domingo</option>
+                        <option value="A definir">A definir</option>
+                    </select>
+                    
+                    <button onclick="adicionarMateria()" class="btn-start" style="padding: 10px 20px;">Adicionar</button>
+                </div>
+
+                <!-- Lista de Matérias -->
+                <ul class="subject-list" id="lista-materias">
+                    <!-- As matérias serão carregadas aqui via JavaScript -->
+                </ul>
+            </div>
+
+            <!-- Arquivos de Estudo -->
+            <div class="card">
+                <h3>Arquivos de Estudo</h3>
+                
+                <!-- Filtro por Matéria -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="color: var(--text-secondary); font-size: 0.9rem; display: block; margin-bottom: 0.5rem;">Filtrar por matéria:</label>
+                    <select id="filtro-materia-arquivo" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary); margin-bottom: 10px;">
+                        <option value="todas">Todas as matérias</option>
+                        <!-- Opções serão carregadas via JS -->
+                    </select>
+                </div>
+
+                <!-- Seletor de Matéria para anexar arquivo -->
+                <div style="margin-bottom: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                    <label style="color: var(--text-secondary); font-size: 0.9rem; display: block; margin-bottom: 0.5rem;">Anexar novo arquivo:</label>
+                    <select id="select-materia-arquivo" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary); margin-bottom: 10px;">
+                        <option value="">Selecione uma matéria...</option>
+                        <!-- Opções serão carregadas via JS -->
+                    </select>
+                    
+                    <div style="display: flex; gap: 10px;">
+                        <input type="file" id="input-arquivo" style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary);">
+                        <button onclick="anexarArquivo()" class="btn-start" style="padding: 10px 20px;">Anexar</button>
+                    </div>
+                </div>
+
+                <!-- Lista de Arquivos -->
+                <ul class="subject-list" id="lista-arquivos">
+                    <!-- Arquivos serão carregados aqui via JS -->
+                </ul>
+            </div>
+
+            <!-- Notas por Matéria -->
+            <div class="card">
+                <h3>Notas por Matéria</h3>
+                
+                <!-- Filtro por Matéria -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="color: var(--text-secondary); font-size: 0.9rem; display: block; margin-bottom: 0.5rem;">Filtrar por matéria:</label>
+                    <select id="filtro-materia-notas" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary); margin-bottom: 10px;">
+                        <option value="todas">Todas as matérias</option>
+                        <!-- Opções serão carregadas via JS -->
+                    </select>
+                </div>
+
+                <!-- Formulário de Adicionar Nota -->
+                <div style="margin-bottom: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                    <label style="color: var(--text-secondary); font-size: 0.9rem; display: block; margin-bottom: 0.5rem;">Adicionar nova nota:</label>
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <select id="select-materia-nota" style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary);">
+                            <option value="">Selecione uma matéria...</option>
+                        </select>
+                        <select id="select-unidade-nota" style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary);">
+                            <option value="1º Bimestre">1º Bimestre</option>
+                            <option value="2º Bimestre">2º Bimestre</option>
+                            <option value="3º Bimestre">3º Bimestre</option>
+                            <option value="4º Bimestre">4º Bimestre</option>
+                            <option value="1º Trimestre">1º Trimestre</option>
+                            <option value="2º Trimestre">2º Trimestre</option>
+                            <option value="3º Trimestre">3º Trimestre</option>
+                            <option value="Prova Final">Prova Final</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="number" id="input-nota" placeholder="Nota (0-10)" min="0" max="10" step="0.1" style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary);">
+                        <button onclick="adicionarNota()" class="btn-start" style="padding: 10px 20px;">Adicionar</button>
+                    </div>
+                </div>
+
+                <!-- Lista de Notas -->
+                <ul class="subject-list" id="lista-notas">
+                    <!-- Notas serão carregadas aqui via JS -->
+                </ul>
+            </div>
+
+            <!-- Horas Estudadas -->
+            <div class="card">
+                <h3>Horas Estudadas</h3>
+                
+                <!-- Registro de Estudo -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="color: var(--text-secondary); font-size: 0.9rem; display: block; margin-bottom: 0.5rem;">Registrar nova sessão de estudo:</label>
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <select id="select-dia-registro" style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary);">
+                            <option value="Segunda">Segunda</option>
+                            <option value="Terça">Terça</option>
+                            <option value="Quarta">Quarta</option>
+                            <option value="Quinta">Quinta</option>
+                            <option value="Sexta">Sexta</option>
+                            <option value="Sábado">Sábado</option>
+                            <option value="Domingo">Domingo</option>
+                        </select>
+                        <input type="number" id="input-horas" placeholder="Horas" min="0" max="24" step="0.5" style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary);">
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="input-materia-registro" placeholder="Matéria (opcional)" style="flex: 2; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary);">
+                        <button onclick="registrarEstudo()" class="btn-start" style="padding: 10px 20px;">Registrar</button>
+                    </div>
+                </div>
+
+                <!-- Gráfico de Frequência -->
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--text-primary); margin-bottom: 1rem;">Frequência Semanal</h4>
+                    <div class="chart-container">
+                        <div class="bar-group">
+                            <div class="bar" id="bar-segunda" data-horas="0"></div>
+                            <span class="bar-label">SEG</span>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" id="bar-terca" data-horas="0"></div>
+                            <span class="bar-label">TER</span>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" id="bar-quarta" data-horas="0"></div>
+                            <span class="bar-label">QUA</span>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" id="bar-quinta" data-horas="0"></div>
+                            <span class="bar-label">QUI</span>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" id="bar-sexta" data-horas="0"></div>
+                            <span class="bar-label">SEX</span>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" id="bar-sabado" data-horas="0"></div>
+                            <span class="bar-label">SÁB</span>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" id="bar-domingo" data-horas="0"></div>
+                            <span class="bar-label">DOM</span>
+                        </div>
+                    </div>
+                </div>
+
+                            <!-- Relatório Mensal -->
+            <div class="card">
+                <h3>Relatório Mensal</h3>
+                
+                <!-- Seletor de Mês -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="color: var(--text-secondary); font-size: 0.9rem; display: block; margin-bottom: 0.5rem;">Mês de Referência:</label>
+                    <select id="select-mes-relatorio" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary);">
+                        <!-- Opções serão geradas via JavaScript -->
+                    </select>
+                </div>
+
+                <!-- Estatísticas Principais -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding: 1rem; background: rgba(74, 222, 128, 0.1); border-radius: 8px; margin-bottom: 1.5rem;">
+                    <div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Total de Horas</div>
+                        <div style="font-size: 1.8rem; font-weight: bold; color: var(--accent-color);" id="relatorio-total-horas">0h</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Sessões de Estudo</div>
+                        <div style="font-size: 1.8rem; font-weight: bold; color: var(--accent-color);" id="relatorio-sessoes">0</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Média Diária</div>
+                        <div style="font-size: 1.8rem; font-weight: bold; color: var(--accent-color);" id="relatorio-media-dia">0h</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Melhor Dia</div>
+                        <div style="font-size: 1.2rem; font-weight: bold; color: var(--accent-color);" id="relatorio-melhor-dia">-</div>
+                    </div>
+                </div>
+
+                <!-- Gráfico de Progresso Semanal -->
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--text-primary); margin-bottom: 1rem;">Progresso Semanal</h4>
+                    <div class="chart-container" style="height: 180px; display: flex; justify-content: space-between; align-items: flex-end; padding-top: 20px; border-bottom: 1px solid var(--border-color);">
+                        <div class="bar-group">
+                            <div class="bar" id="bar-semana-1" style="height: 0%;"></div>
+                            <span class="bar-label">Sem 1</span>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" id="bar-semana-2" style="height: 0%;"></div>
+                            <span class="bar-label">Sem 2</span>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" id="bar-semana-3" style="height: 0%;"></div>
+                            <span class="bar-label">Sem 3</span>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" id="bar-semana-4" style="height: 0%;"></div>
+                            <span class="bar-label">Sem 4</span>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" id="bar-semana-5" style="height: 0%;"></div>
+                            <span class="bar-label">Sem 5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desempenho por Matéria -->
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--text-primary); margin-bottom: 1rem;">Desempenho por Matéria</h4>
+                    <ul class="subject-list" id="lista-materias-relatorio">
+                        <!-- Matérias serão carregadas aqui via JS -->
+                    </ul>
+                </div>
+
+                <!-- Metas e Progresso -->
+                <div style="padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span style="color: var(--text-secondary); font-size: 0.9rem;">Meta Mensal</span>
+                        <span style="color: var(--text-primary); font-size: 0.9rem; font-weight: bold;" id="relatorio-meta">60h</span>
+                    </div>
+                    <div style="width: 100%; height: 10px; background: #334155; border-radius: 5px; overflow: hidden; margin-bottom: 0.5rem;">
+                        <div id="barra-progresso-mes" style="width: 0%; height: 100%; background: var(--accent-color); transition: width 0.5s ease;"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-secondary);">
+                        <span id="progresso-texto">0% concluído</span>
+                        <span id="horas-faltantes">60h restantes</span>
+                    </div>
+                </div>
+            </div>
+
+                <!-- Estatísticas -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding: 1rem; background: rgba(74, 222, 128, 0.1); border-radius: 8px;">
+                    <div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Total Semanal</div>
+                        <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent-color);" id="total-horas">0h</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Média Diária</div>
+                        <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent-color);" id="media-dia">0h</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Dias Estudados</div>
+                        <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent-color);" id="dias-estudados">0</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Meta Semanal</div>
+                        <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent-color);" id="meta-semanal">15h</div>
+                    </div>
+                </div>
+
+                <!-- Lista de Registros -->
+                <div style="margin-top: 1.5rem;">
+                    <h4 style="color: var(--text-primary); margin-bottom: 0.5rem;">Registros Recentes</h4>
+                    <ul class="subject-list" id="lista-registros">
+                        <!-- Registros serão carregados aqui via JS -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Estatísticas -->
+            <div class="card">
+                <h3>Seu Progresso</h3>
+                <div style="text-align: center; padding: 2rem;">
+                    <div style="font-size: 3rem; color: var(--accent-color); font-weight: bold;" id="user-nivel">Nível 0</div>
+                    <p style="color: var(--text-secondary); margin-top: 0.5rem;">XP: <span id="user-xp">0 / 100 XP</span></p>
+                    
+                    <!-- Barra de XP -->
+                    <div style="width: 100%; height: 10px; background: #334155; border-radius: 5px; overflow: hidden; margin-top: 1rem;">
+                        <div id="barra-xp" style="width: 0%; height: 100%; background: var(--accent-color); transition: width 0.5s ease;"></div>
+                    </div>
+                    
+                    <!-- Próximos Níveis -->
+                    <div style="margin-top: 1.5rem; text-align: left;">
+                        <h4 style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;">Próximos Níveis:</h4>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
+                            <div style="background: rgba(255,255,255,0.05); padding: 0.5rem; border-radius: 4px; text-align: center;">
+                                <div style="font-size: 0.8rem; color: var(--text-secondary);">Próximo</div>
+                                <div style="font-weight: bold; color: var(--accent-color);" id="xp-proximo">100 XP</div>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.05); padding: 0.5rem; border-radius: 4px; text-align: center;">
+                                <div style="font-size: 0.8rem; color: var(--text-secondary);">Meta Mensal</div>
+                                <div style="font-weight: bold; color: var(--accent-color);">60h</div>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.05); padding: 0.5rem; border-radius: 4px; text-align: center;">
+                                <div style="font-size: 0.8rem; color: var(--text-secondary);">Horas Totais</div>
+                                <div style="font-weight: bold; color: var(--accent-color);" id="total-horas-totais">0h</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rodapé -->
+            <footer style="background-color: var(--bg-tertiary); padding: 3rem 2rem; border-top: 1px solid var(--border-color); margin-top: 4rem;">
+                <div style="max-width: var(--container-width); margin: 0 auto;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+                        
+                        <!-- Coluna 1: Sobre -->
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem;">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width: 24px; height: 24px; fill: var(--accent-color);">
+                                    <path d="M12 2L2 22H22L12 2ZM12 6L18.5 19H5.5L12 6ZM12 10L10 15H14L12 10Z"/>
+                                </svg>
+                                <span style="font-weight: 700; font-size: 1.2rem; color: var(--text-primary);">AcademicFlow</span>
+                            </div>
+                            <p style="color: var(--text-secondary); line-height: 1.6;">
+                                Plataforma de gestão de estudos para alunos que buscam excelência acadêmica. Organize, acompanhe e evolua sua jornada de aprendizado.
+                            </p>
+                        </div>
+
+                        <!-- Coluna 2: Links Rápidos -->
+                        <div>
+                            <h4 style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1rem;">Links Rápidos</h4>
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="margin-bottom: 0.5rem;"><a href="#" style="color: var(--text-secondary); text-decoration: none; transition: color 0.3s;">Dashboard</a></li>
+                                <li style="margin-bottom: 0.5rem;"><a href="#" style="color: var(--text-secondary); text-decoration: none; transition: color 0.3s;">Relatórios</a></li>
+                                <li style="margin-bottom: 0.5rem;"><a href="#" style="color: var(--text-secondary); text-decoration: none; transition: color 0.3s;">Configurações</a></li>
+                                <li style="margin-bottom: 0.5rem;"><a href="#" style="color: var(--text-secondary); text-decoration: none; transition: color 0.3s;">Ajuda</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Coluna 3: Contato -->
+                        <div>
+                            <h4 style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1rem;">Contato</h4>
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="margin-bottom: 0.5rem; color: var(--text-secondary);">📧 contato@academicflow.com</li>
+                                <li style="margin-bottom: 0.5rem; color: var(--text-secondary);">📱 +55 (84) 99142-5698</li>
+                                <li style="margin-bottom: 0.5rem; color: var(--text-secondary);">📍 Natal, RN</li>
+                            </ul>
+                        </div>
+
+                        <!-- Coluna 4: Redes Sociais -->
+                        <div>
+                            <h4 style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1rem;">Siga-nos</h4>
+                            <div style="display: flex; gap: 1rem;">
+                                <a href="#" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); transition: all 0.3s;">
+                                    <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; fill: currentColor;">
+                                        <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                                    </svg>
+                                </a>
+                                <a href="#" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); transition: all 0.3s;">
+                                    <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; fill: currentColor;">
+                                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                                    </svg>
+                                </a>
+                                <a href="#" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); transition: all 0.3s;">
+                                    <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; fill: currentColor;">
+                                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Linha Inferior -->
+                    <div style="border-top: 1px solid var(--border-color); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                            © 2026 AcademicFlow. Todos os direitos reservados.
+                        </p>
+                        <div style="display: flex; gap: 1.5rem;">
+                            <a href="#" style="color: var(--text-secondary); font-size: 0.9rem; text-decoration: none; transition: color 0.3s;">Política de Privacidade</a>
+                            <a href="#" style="color: var(--text-secondary); font-size: 0.9rem; text-decoration: none; transition: color 0.3s;">Termos de Uso</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+    <!-- Script da Etapa 1 -->
+    <script>
+        // Função de Logout
+        function fazerLogout() {
+            localStorage.removeItem('academicflow_session');
+            window.location.href = 'index.html';
+        }
+
+        // Carregar dados do usuário ao iniciar
+        document.addEventListener('DOMContentLoaded', () => {
+            const session = localStorage.getItem('academicflow_session');
+            if (session) {
+                const user = JSON.parse(session);
+                document.getElementById('user-name').textContent = user.name;
+                document.getElementById('user-avatar').textContent = user.name.charAt(0).toUpperCase();
+                document.getElementById('welcome-text').textContent = `Olá, ${user.name}!`;
+            } else {
+                window.location.href = 'index.html';
+            }
+            
+            // Carregar matérias salvas
+            carregarMaterias();
+        });
+
+        // Adicionar nova matéria
+        function adicionarMateria() {
+            const input = document.getElementById('nova-materia');
+            const diaSelect = document.getElementById('dia-estudo'); // Pega o elemento do select
+            const nomeMateria = input.value.trim();
+            const diaEstudo = diaSelect.value; // Pega o valor selecionado (ex: "Segunda")
+            
+            if (!nomeMateria) {
+                alert('Por favor, digite o nome da matéria!');
+                return;
+            }
+            
+            // Pegar matérias salvas
+            const materias = JSON.parse(localStorage.getItem('academicflow_materias') || '[]');
+            
+            // Adicionar nova matéria
+            // CORREÇÃO: Usamos 'dia: diaEstudo' para salvar o dia escolhido
+            materias.push({
+                id: Date.now(),
+                nome: nomeMateria,
+                dia: diaEstudo // Salva o dia real escolhido
+            });
+            
+            // Salvar no localStorage
+            localStorage.setItem('academicflow_materias', JSON.stringify(materias));
+            
+            // Limpar input
+            input.value = '';
+            
+            // Recarregar lista
+            carregarMaterias();
+        }
+
+        // Carregar matérias na tela
+        function carregarMaterias() {
+            const materias = JSON.parse(localStorage.getItem('academicflow_materias') || '[]');
+            const lista = document.getElementById('lista-materias');
+            
+            lista.innerHTML = ''; // Limpar lista atual
+            
+            if (materias.length === 0) {
+                lista.innerHTML = '<li style="text-align: center; color: var(--text-secondary); padding: 1rem;">Nenhuma matéria cadastrada. Adicione uma acima!</li>';
+                return;
+            }
+            
+            materias.forEach((materia) => {
+                const li = document.createElement('li');
+                li.className = 'subject-item';
+                
+                // CORREÇÃO: Agora estamos exibindo 'materia.dia' que foi salvo corretamente
+                li.innerHTML = `
+                    <span onclick="selecionarMateria(this, '${materia.nome}', '${materia.dia || 'A definir'}')" style="cursor: pointer;">
+                        ${materia.nome}
+                    </span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <span class="tag" id="tag-${materia.id}">${materia.dia || 'A definir'}</span>
+                        <button onclick="editarDiaMateria(${materia.id})" style="background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 1rem;">📅</button>
+                        <button onclick="removerMateria(${materia.id})" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem;">×</button>
+                    </div>
+                `;
+                lista.appendChild(li);
+            });
+        }
+
+        // Remover matéria
+        function removerMateria(id) {
+            if (!confirm('Tem certeza que deseja remover esta matéria?')) return;
+            
+            let materias = JSON.parse(localStorage.getItem('academicflow_materias') || '[]');
+            materias = materias.filter(m => m.id !== id);
+            localStorage.setItem('academicflow_materias', JSON.stringify(materias));
+            carregarMaterias();
+        }
+
+        // Selecionar Matéria
+        function selecionarMateria(element, materia) {
+            document.querySelectorAll('.subject-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            element.classList.add('active');
+            console.log('Matéria selecionada:', materia);
+        }
+
+        // Editar dia da matéria
+        function editarDiaMateria(id) {
+            const materias = JSON.parse(localStorage.getItem('academicflow_materias') || '[]');
+            const materia = materias.find(m => m.id === id);
+            
+            if (materia) {
+                // Abre um prompt para o usuário digitar o novo dia
+                const novoDia = prompt('Digite o novo dia de estudo:', materia.dia);
+                
+                // Se o usuário não cancelar e digitar algo
+                if (novoDia !== null && novoDia.trim() !== '') {
+                    materia.dia = novoDia.trim();
+                    localStorage.setItem('academicflow_materias', JSON.stringify(materias));
+                    carregarMaterias();
+                }
+            }
+        }
+        
+        // Timer Pomodoro
+        document.addEventListener('DOMContentLoaded', () => {
+            const timerDisplay = document.getElementById('timer-display');
+            const btnStart = document.getElementById('btn-start');
+            const btnPause = document.getElementById('btn-pause');
+            const btnReset = document.getElementById('btn-reset');
+            const timerRing = document.querySelector('.timer-ring');
+            
+            let timeLeft = 1500; // 25 minutos em segundos
+            let timerInterval = null;
+            let isRunning = false;
+
+            function updateDisplay() {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+
+            function startTimer() {
+                if (isRunning) return;
+                isRunning = true;
+                timerRing.style.animationPlayState = 'running';
+                timerRing.style.animation = 'spin 4s linear infinite';
+                
+                timerInterval = setInterval(() => {
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                        updateDisplay();
+                    } else {
+                        clearInterval(timerInterval);
+                        isRunning = false;
+                        finishTimer();
+                    }
+                }, 1000);
+            }
+
+            function pauseTimer() {
+                clearInterval(timerInterval);
+                isRunning = false;
+                timerRing.style.animationPlayState = 'paused';
+            }
+
+            function resetTimer() {
+                clearInterval(timerInterval);
+                isRunning = false;
+                timeLeft = 1500; // Reseta para 25 min
+                updateDisplay();
+                timerRing.style.animation = 'spin 4s linear infinite';
+                timerRing.classList.remove('finished');
+                timerRing.style.animationPlayState = 'paused';
+                hideNotification();
+            }
+
+            function finishTimer() {
+                timerRing.style.animation = 'none';
+                timerRing.classList.add('finished');
+                showNotification();
+                // Opcional: Tocar um som aqui se desejar
+            }
+
+            function showNotification() {
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                notification.textContent = '🎉 Foco Concluído! Bom trabalho!';
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.display = 'block';
+                }, 100);
+
+                setTimeout(() => {
+                    hideNotification();
+                }, 5000); // Some após 5 segundos
+            }
+
+            function hideNotification() {
+                const notification = document.querySelector('.notification');
+                if (notification) {
+                    notification.style.display = 'none';
+                }
+            }
+
+            btnStart.addEventListener('click', startTimer);
+            btnPause.addEventListener('click', pauseTimer);
+            btnReset.addEventListener('click', resetTimer);
+        });
+
+        // --- Gerenciamento de Notas ---
+
+        // Carregar matérias no select de notas
+        function carregarMateriasNoSelectNotas() {
+            const materias = JSON.parse(localStorage.getItem('academicflow_materias') || '[]');
+            const select = document.getElementById('select-materia-nota');
+            const filtroSelect = document.getElementById('filtro-materia-notas');
+            
+            // Limpa opções existentes
+            select.innerHTML = '<option value="">Selecione uma matéria...</option>';
+            filtroSelect.innerHTML = '<option value="todas">Todas as matérias</option>';
+            
+            materias.forEach(materia => {
+                // Adiciona ao select de adicionar nota
+                const optionAnexar = document.createElement('option');
+                optionAnexar.value = materia.nome;
+                optionAnexar.textContent = materia.nome;
+                select.appendChild(optionAnexar);
+                
+                // Adiciona ao filtro
+                const optionFiltro = document.createElement('option');
+                optionFiltro.value = materia.nome;
+                optionFiltro.textContent = materia.nome;
+                filtroSelect.appendChild(optionFiltro);
+            });
+        }
+
+        // Adicionar nota
+        function adicionarNota() {
+            const select = document.getElementById('select-materia-nota');
+            const unidadeSelect = document.getElementById('select-unidade-nota');
+            const input = document.getElementById('input-nota');
+            const materiaSelecionada = select.value;
+            const unidade = unidadeSelect.value;
+            const nota = parseFloat(input.value);
+            
+            if (!materiaSelecionada) {
+                alert('Por favor, selecione uma matéria!');
+                return;
+            }
+            
+            if (isNaN(nota) || nota < 0 || nota > 10) {
+                alert('Por favor, insira uma nota válida entre 0 e 10!');
+                return;
+            }
+            
+            // Criar objeto da nota
+            const novaNota = {
+                id: Date.now(),
+                materia: materiaSelecionada,
+                unidade: unidade,
+                nota: nota,
+                data: new Date().toLocaleDateString('pt-BR')
+            };
+            
+            // Pegar notas salvas
+            const notas = JSON.parse(localStorage.getItem('academicflow_notas') || '[]');
+            
+            // Adicionar nova nota
+            notas.push(novaNota);
+            
+            // Salvar no localStorage
+            localStorage.setItem('academicflow_notas', JSON.stringify(notas));
+            
+            // Limpar input
+            input.value = '';
+            
+            // Recarregar lista e atualizar selects
+            carregarNotas();
+            carregarMateriasNoSelectNotas();
+        }
+
+        // Carregar notas na tela (com filtro)
+        function carregarNotas() {
+            const notas = JSON.parse(localStorage.getItem('academicflow_notas') || '[]');
+            const lista = document.getElementById('lista-notas');
+            const filtroSelect = document.getElementById('filtro-materia-notas');
+            const materiaFiltro = filtroSelect.value;
+            
+            lista.innerHTML = ''; // Limpar lista atual
+            
+            // Filtrar notas
+            const notasFiltradas = materiaFiltro === 'todas' 
+                ? notas 
+                : notas.filter(n => n.materia === materiaFiltro);
+            
+            if (notasFiltradas.length === 0) {
+                lista.innerHTML = '<li style="text-align: center; color: var(--text-secondary); padding: 1rem;">Nenhuma nota registrada para esta matéria.</li>';
+                return;
+            }
+            
+            // Agrupar por matéria
+            const notasPorMateria = {};
+            notasFiltradas.forEach(nota => {
+                if (!notasPorMateria[nota.materia]) {
+                    notasPorMateria[nota.materia] = [];
+                }
+                notasPorMateria[nota.materia].push(nota);
+            });
+            
+            // Exibir notas agrupadas por matéria
+            Object.keys(notasPorMateria).forEach(materia => {
+                const notasMateria = notasPorMateria[materia];
+                
+                // Calcular média
+                const soma = notasMateria.reduce((acc, n) => acc + n.nota, 0);
+                const media = soma / notasMateria.length;
+                const mediaNecessaria = 6 - media; // Nota necessária para passar (considerando 6 como mínimo)
+                
+                // Determinar cor da nota (MÉDIA)
+                let classeNota = 'nota-badge';
+                if (media < 6) classeNota += ' baixa';
+                else if (media < 7) classeNota += ' medio';
+                else classeNota += ' alta';
+                
+                // Criar item da matéria
+                const li = document.createElement('li');
+                li.className = 'nota-item';
+                
+                // Criar lista de notas individuais
+                let notasIndividuaisHTML = '';
+                notasMateria.forEach(nota => {
+                    let classeNotaIndividual = 'nota-individual-badge';
+                    if (nota.nota < 6) classeNotaIndividual += ' baixa';
+                    else if (nota.nota < 7) classeNotaIndividual += ' medio';
+                    else classeNotaIndividual += ' alta';
+                    
+                    notasIndividuaisHTML += `
+                        <div class="nota-individual">
+                            <div class="nota-individual-info">
+                                <span class="nota-individual-badge ${classeNotaIndividual}">${nota.nota.toFixed(1)}</span>
+                                <div class="nota-individual-details">
+                                    <span class="nota-individual-subject">${materia}</span>
+                                    <span class="nota-individual-unit">${nota.unidade} • ${nota.data}</span>
+                                </div>
+                            </div>
+                            <div class="nota-individual-actions">
+                                <button onclick="deletarNotaIndividual(${nota.id})" class="btn-delete" title="Excluir nota">×</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                li.innerHTML = `
+                    <div style="width: 100%;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <div>
+                                <div class="nota-badge ${classeNota}" style="font-size: 1.5rem; padding: 8px 15px;">${media.toFixed(1)}</div>
+                                <div class="nota-subject" style="margin-top: 0.5rem;">${materia}</div>
+                            </div>
+                            <div class="nota-media">
+                                <h4>Média Atual</h4>
+                                <div class="media-valor">${media.toFixed(1)}</div>
+                                <div class="media-necessaria ${mediaNecessaria > 0 ? 'positiva' : 'negativa'}">
+                                    ${mediaNecessaria > 0 ? `Falta ${mediaNecessaria.toFixed(1)} para passar` : 'Aprovado!'}
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <h4 style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;">Notas Registradas:</h4>
+                            ${notasIndividuaisHTML}
+                        </div>
+                    </div>
+                `;
+                lista.appendChild(li);
+            });
+        }
+
+        // Deletar nota individual
+        function deletarNotaIndividual(id) {
+            if (!confirm('Tem certeza que deseja remover esta nota?')) return;
+            
+            let notas = JSON.parse(localStorage.getItem('academicflow_notas') || '[]');
+            notas = notas.filter(n => n.id !== id);
+            localStorage.setItem('academicflow_notas', JSON.stringify(notas));
+            carregarNotas();
+        }
+
+        // Adicionar evento de filtro
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarMateriasNoSelectNotas();
+            
+            // Atualizar lista quando mudar o filtro
+            const filtroSelect = document.getElementById('filtro-materia-notas');
+            if (filtroSelect) {
+                filtroSelect.addEventListener('change', carregarNotas);
+            }
+        });
+
+                // --- Gerenciamento de Arquivos ---
+
+        // Carregar matérias no select de arquivos
+        function carregarMateriasNoSelect() {
+            const materias = JSON.parse(localStorage.getItem('academicflow_materias') || '[]');
+            const select = document.getElementById('select-materia-arquivo');
+            const filtroSelect = document.getElementById('filtro-materia-arquivo');
+            
+            // Limpa opções existentes (mantendo a primeira)
+            select.innerHTML = '<option value="">Selecione uma matéria...</option>';
+            filtroSelect.innerHTML = '<option value="todas">Todas as matérias</option>';
+            
+            materias.forEach(materia => {
+                // Adiciona ao select de anexar
+                const optionAnexar = document.createElement('option');
+                optionAnexar.value = materia.nome;
+                optionAnexar.textContent = materia.nome;
+                select.appendChild(optionAnexar);
+                
+                // Adiciona ao filtro
+                const optionFiltro = document.createElement('option');
+                optionFiltro.value = materia.nome;
+                optionFiltro.textContent = materia.nome;
+                filtroSelect.appendChild(optionFiltro);
+            });
+        }
+
+        // Anexar arquivo
+        function anexarArquivo() {
+            const select = document.getElementById('select-materia-arquivo');
+            const input = document.getElementById('input-arquivo');
+            const materiaSelecionada = select.value;
+            const arquivo = input.files[0];
+            
+            if (!materiaSelecionada) {
+                alert('Por favor, selecione uma matéria!');
+                return;
+            }
+            
+            if (!arquivo) {
+                alert('Por favor, selecione um arquivo!');
+                return;
+            }
+            
+            // Criar objeto do arquivo
+            const novoArquivo = {
+                id: Date.now(),
+                nome: arquivo.name,
+                tipo: arquivo.type,
+                tamanho: (arquivo.size / 1024).toFixed(2) + ' KB',
+                materia: materiaSelecionada,
+                data: new Date().toLocaleDateString('pt-BR'),
+                url: URL.createObjectURL(arquivo)
+            };
+            
+            // Pegar arquivos salvos
+            const arquivos = JSON.parse(localStorage.getItem('academicflow_arquivos') || '[]');
+            
+            // Adicionar novo arquivo
+            arquivos.push(novoArquivo);
+            
+            // Salvar no localStorage
+            localStorage.setItem('academicflow_arquivos', JSON.stringify(arquivos));
+            
+            // Limpar input
+            input.value = '';
+            
+            // Recarregar lista e atualizar selects
+            carregarArquivos();
+            carregarMateriasNoSelect();
+        }
+
+        // Carregar arquivos na tela (com filtro)
+        function carregarArquivos() {
+            const arquivos = JSON.parse(localStorage.getItem('academicflow_arquivos') || '[]');
+            const lista = document.getElementById('lista-arquivos');
+            const filtroSelect = document.getElementById('filtro-materia-arquivo');
+            const materiaFiltro = filtroSelect.value;
+            
+            lista.innerHTML = ''; // Limpar lista atual
+            
+            // Filtrar arquivos
+            const arquivosFiltrados = materiaFiltro === 'todas' 
+                ? arquivos 
+                : arquivos.filter(a => a.materia === materiaFiltro);
+            
+            if (arquivosFiltrados.length === 0) {
+                lista.innerHTML = '<li style="text-align: center; color: var(--text-secondary); padding: 1rem;">Nenhum arquivo encontrado para esta matéria.</li>';
+                return;
+            }
+            
+            arquivosFiltrados.forEach(arquivo => {
+                const li = document.createElement('li');
+                li.className = 'file-item';
+                
+                // Ícone baseado no tipo de arquivo
+                let icono = '📄';
+                if (arquivo.tipo.includes('image')) icono = '🖼️';
+                if (arquivo.tipo.includes('pdf')) icono = '📕';
+                if (arquivo.tipo.includes('video')) icono = '🎬';
+                if (arquivo.tipo.includes('audio')) icono = '🎵';
+                
+                li.innerHTML = `
+                    <div class="file-info">
+                        <span class="file-icon">${icono}</span>
+                        <div>
+                            <div class="file-name">${arquivo.nome}</div>
+                            <div class="file-subject">${arquivo.materia} • ${arquivo.tamanho} • ${arquivo.data}</div>
+                        </div>
+                    </div>
+                    <div class="file-actions">
+                        <button onclick="abrirArquivo(${arquivo.id})" class="btn-download">Abrir</button>
+                        <button onclick="deletarArquivo(${arquivo.id})" class="btn-delete">×</button>
+                    </div>
+                `;
+                lista.appendChild(li);
+            });
+        }
+
+        // Deletar arquivo
+        function deletarArquivo(id) {
+            if (!confirm('Tem certeza que deseja remover este arquivo?')) return;
+            
+            let arquivos = JSON.parse(localStorage.getItem('academicflow_arquivos') || '[]');
+            arquivos = arquivos.filter(a => a.id !== id);
+            localStorage.setItem('academicflow_arquivos', JSON.stringify(arquivos));
+            carregarArquivos();
+        }
+
+        // Abrir arquivo (Visualização)
+        function abrirArquivo(id) {
+            const arquivos = JSON.parse(localStorage.getItem('academicflow_arquivos') || '[]');
+            const arquivo = arquivos.find(a => a.id === id);
+            
+            if (arquivo) {
+                // Abre o arquivo em uma nova aba
+                window.open(arquivo.url, '_blank');
+            }
+        }
+
+        // Carregar select de matérias ao iniciar
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarMateriasNoSelect();
+            
+            // Atualizar lista quando mudar o filtro
+            const filtroSelect = document.getElementById('filtro-materia-arquivo');
+            if (filtroSelect) {
+                filtroSelect.addEventListener('change', carregarArquivos);
+            }
+        });
+        
+        // --- Gerenciamento de Horas de Estudo ---
+
+        // Registrar estudo
+        function registrarEstudo() {
+            const diaSelect = document.getElementById('select-dia-registro');
+            const inputHoras = document.getElementById('input-horas');
+            const inputMateria = document.getElementById('input-materia-registro');
+            const dia = diaSelect.value;
+            const horas = parseFloat(inputHoras.value);
+            const materia = inputMateria.value.trim();
+            
+            if (isNaN(horas) || horas <= 0) {
+                alert('Por favor, insira um número válido de horas!');
+                return;
+            }
+            
+            // Criar objeto do registro
+            const novoRegistro = {
+                id: Date.now(),
+                dia: dia,
+                horas: horas,
+                materia: materia || 'Geral',
+                data: new Date().toLocaleDateString('pt-BR')
+            };
+            
+            // Pegar registros salvos
+            const registros = JSON.parse(localStorage.getItem('academicflow_registros') || '[]');
+            
+            // Adicionar novo registro
+            registros.push(novoRegistro);
+            
+            // Salvar no localStorage
+            localStorage.setItem('academicflow_registros', JSON.stringify(registros));
+            
+            // Limpar inputs
+            inputHoras.value = '';
+            inputMateria.value = '';
+            
+            // Recarregar dados
+            carregarRegistros();
+            atualizarIndicadores();
+            gerarRelatorioMensal();
+            atualizarProgressoUsuario(true);
+        }
+
+        // Carregar registros na tela
+        function carregarRegistros() {
+            const registros = JSON.parse(localStorage.getItem('academicflow_registros') || '[]');
+            const lista = document.getElementById('lista-registros');
+            
+            lista.innerHTML = ''; // Limpar lista atual
+            
+            if (registros.length === 0) {
+                lista.innerHTML = '<li style="text-align: center; color: var(--text-secondary); padding: 1rem;">Nenhum registro de estudo ainda.</li>';
+                return;
+            }
+            
+            // Ordenar por data (mais recente primeiro)
+            registros.sort((a, b) => b.id - a.id);
+            
+            registros.forEach(registro => {
+                const li = document.createElement('li');
+                li.className = 'registro-item';
+                
+                li.innerHTML = `
+                    <div class="registro-info">
+                        <span class="registro-horas">${registro.horas}h</span>
+                        <div>
+                            <div style="font-weight: 600; color: var(--text-primary);">${registro.materia}</div>
+                            <div class="registro-dia">${registro.dia} • ${registro.data}</div>
+                        </div>
+                    </div>
+                    <button onclick="deletarRegistro(${registro.id})" class="btn-delete">×</button>
+                `;
+                lista.appendChild(li);
+            });
+        }
+
+        // Deletar registro
+        function deletarRegistro(id) {
+            if (!confirm('Tem certeza que deseja remover este registro?')) return;
+            
+            let registros = JSON.parse(localStorage.getItem('academicflow_registros') || '[]');
+            registros = registros.filter(r => r.id !== id);
+            localStorage.setItem('academicflow_registros', JSON.stringify(registros));
+            carregarRegistros();
+            atualizarIndicadores();
+        }
+
+        // Atualizar indicadores de frequência (BARRAS DO GRÁFICO)
+        function atualizarIndicadores() {
+            const registros = JSON.parse(localStorage.getItem('academicflow_registros') || '[]');
+            
+            // Mapear dias - USAR NOMES EXATOS DOS IDs DO HTML
+            const diasSemana = [
+                { nome: 'Segunda', id: 'bar-segunda' },
+                { nome: 'Terça', id: 'bar-terca' },
+                { nome: 'Quarta', id: 'bar-quarta' },
+                { nome: 'Quinta', id: 'bar-quinta' },
+                { nome: 'Sexta', id: 'bar-sexta' },
+                { nome: 'Sábado', id: 'bar-sabado' },
+                { nome: 'Domingo', id: 'bar-domingo' }
+            ];
+            
+            const horasPorDia = {};
+            
+            // Inicializar com 0
+            diasSemana.forEach(dia => horasPorDia[dia.nome] = 0);
+            
+            // Somar horas por dia
+            registros.forEach(registro => {
+                if (horasPorDia[registro.dia] !== undefined) {
+                    horasPorDia[registro.dia] += registro.horas;
+                }
+            });
+            
+            // Encontrar o maior valor para calcular porcentagem
+            const maxHoras = Math.max(...Object.values(horasPorDia), 1);
+            
+            // Atualizar barras
+            diasSemana.forEach(dia => {
+                const bar = document.getElementById(dia.id);
+                const horas = horasPorDia[dia.nome];
+                const porcentagem = (horas / maxHoras) * 100;
+                
+                if (bar) {
+                    bar.style.height = `${porcentagem}%`;
+                    bar.classList.toggle('active-bar', horas > 0);
+                    bar.setAttribute('data-horas', horas.toFixed(1));
+                }
+            });
+            
+            // Calcular estatísticas
+            const totalHoras = registros.reduce((acc, r) => acc + r.horas, 0);
+            const diasEstudados = new Set(registros.map(r => r.dia)).size;
+            const mediaDiaria = totalHoras / 7;
+            
+            // Atualizar estatísticas
+            document.getElementById('total-horas').textContent = `${totalHoras.toFixed(1)}h`;
+            document.getElementById('media-dia').textContent = `${mediaDiaria.toFixed(1)}h`;
+            document.getElementById('dias-estudados').textContent = diasEstudados;
+            
+            // Animação suave para as barras
+            document.querySelectorAll('.bar').forEach(bar => {
+                bar.style.transition = 'height 0.8s ease';
+            });
+        }
+
+         // --- Função para gerar opções de meses dinamicamente ---
+        function atualizarSelectMeses() {
+            const select = document.getElementById('select-mes-relatorio');
+            const dataAtual = new Date();
+            const anoAtual = dataAtual.getFullYear();
+            const mesAtual = dataAtual.getMonth(); // 0 = Janeiro, 11 = Dezembro
+            
+            // Lista de nomes dos meses
+            const meses = [
+                "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+                "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+            ];
+
+            // Limpa opções atuais
+            select.innerHTML = '';
+
+            // Adiciona opção para cada mês do ano atual
+            for (let i = 0; i < 12; i++) {
+                const option = document.createElement('option');
+                // Formata o valor para YYYY-MM (ex: 2024-01)
+                const mesFormatado = (i + 1).toString().padStart(2, '0');
+                option.value = `${anoAtual}-${mesFormatado}`;
+                option.textContent = `${meses[i]} ${anoAtual}`;
+                
+                // Marca o mês atual como selecionado
+                if (i === mesAtual) {
+                    option.selected = true;
+                }
+                
+                select.appendChild(option);
+            }
+        }
+
+        // --- Função para gerar o Relatório Mensal ---
+        function gerarRelatorioMensal() {
+            const selectMes = document.getElementById('select-mes-relatorio');
+            const mesSelecionado = selectMes.value; // Formato: "2024-01"
+            
+            // Pega todos os registros de estudo
+            const registros = JSON.parse(localStorage.getItem('academicflow_registros') || '[]');
+            
+            // Filtra registros que pertencem ao mês selecionado
+            // O registro salva a data como string "DD/MM/AAAA", precisamos converter para comparar
+            const registrosFiltrados = registros.filter(registro => {
+                // Converte a data do registro (ex: "15/01/2024") para objeto Date
+                const partesData = registro.data.split('/');
+                // Cria data no formato YYYY-MM-DD para comparação fácil
+                const dataRegistro = new Date(`${partesData[2]}-${partesData[1]}-${partesData[0]}`);
+                
+                // Compara Ano e Mês
+                return dataRegistro.getFullYear() === parseInt(mesSelecionado.split('-')[0]) &&
+                       (dataRegistro.getMonth() + 1) === parseInt(mesSelecionado.split('-')[1]);
+            });
+
+            // Cálculos
+            const totalHoras = registrosFiltrados.reduce((acc, r) => acc + r.horas, 0);
+            const totalSessoes = registrosFiltrados.length;
+            const diasEstudados = new Set(registrosFiltrados.map(r => r.data)).size;
+            const mediaDiaria = totalHoras / 30; // Média baseada em 30 dias do mês
+
+            // Atualiza os elementos HTML
+            document.getElementById('relatorio-total-horas').textContent = `${totalHoras.toFixed(1)}h`;
+            document.getElementById('relatorio-sessoes').textContent = totalSessoes;
+            document.getElementById('relatorio-media-dia').textContent = `${mediaDiaria.toFixed(1)}h`;
+            
+            // Atualiza barra de progresso (Meta de 40h)
+            const meta = 60;
+            const porcentagem = Math.min((totalHoras / meta) * 100, 100);
+            document.getElementById('barra-progresso-mes').style.width = `${porcentagem}%`;
+            document.getElementById('progresso-texto').textContent = `${porcentagem.toFixed(0)}% concluído`;
+            document.getElementById('horas-faltantes').textContent = `${Math.max(0, meta - totalHoras).toFixed(1)}h restantes`;
+
+            // Atualiza lista de matérias no relatório
+            const listaMateriasRelatorio = document.getElementById('lista-materias-relatorio');
+            listaMateriasRelatorio.innerHTML = '';
+
+            if (registrosFiltrados.length === 0) {
+                listaMateriasRelatorio.innerHTML = '<li style="text-align: center; color: var(--text-secondary); padding: 1rem;">Nenhum registro neste mês.</li>';
+            } else {
+                // Agrupa por matéria
+                const materias = {};
+                registrosFiltrados.forEach(r => {
+                    if (!materias[r.materia]) materias[r.materia] = 0;
+                    materias[r.materia] += r.horas;
+                });
+
+                // Ordena por horas (maior para menor)
+                const materiasOrdenadas = Object.entries(materias).sort((a, b) => b[1] - a[1]);
+
+                materiasOrdenadas.forEach(([nome, horas]) => {
+                    const li = document.createElement('li');
+                    li.className = 'materia-relatorio-item';
+                    
+                    // Calcula porcentagem da barra da matéria
+                    const maxHorasMateria = materiasOrdenadas[0][1];
+                    const porcentagemBarra = (horas / maxHorasMateria) * 100;
+
+                    li.innerHTML = `
+                        <div class="materia-relatorio-info">
+                            <span class="materia-relatorio-nome">${nome}</span>
+                            <span class="materia-relatorio-horas">${horas.toFixed(1)}h</span>
+                        </div>
+                        <div class="materia-relatorio-bar">
+                            <div class="materia-relatorio-bar-fill" style="width: ${porcentagemBarra}%"></div>
+                        </div>
+                    `;
+                    listaMateriasRelatorio.appendChild(li);
+                });
+            }
+        }
+
+        // --- Inicialização do Relatório ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Gera os meses do select
+            atualizarSelectMeses();
+            
+            // Gera o relatório inicial
+            gerarRelatorioMensal();
+            
+            // Atualiza o relatório quando o usuário mudar o mês
+            const selectMes = document.getElementById('select-mes-relatorio');
+            if (selectMes) {
+                selectMes.addEventListener('change', gerarRelatorioMensal);
+            }
+        });
+
+        // --- Função para calcular progresso semanal ---
+        function calcularProgressoSemanal(registrosFiltrados) {
+            const semanas = [0, 0, 0, 0, 0]; // 5 semanas no máximo
+            
+            registrosFiltrados.forEach(registro => {
+                // Converte a data do registro para objeto Date
+                const partesData = registro.data.split('/');
+                const dataRegistro = new Date(`${partesData[2]}-${partesData[1]}-${partesData[0]}`);
+                
+                // Calcula qual semana do mês (1-5)
+                const diaDoMes = dataRegistro.getDate();
+                const semana = Math.ceil(diaDoMes / 7);
+                
+                if (semana >= 1 && semana <= 5) {
+                    semanas[semana - 1] += registro.horas;
+                }
+            });
+            
+            // Encontra o valor máximo para calcular porcentagem
+            const maxHoras = Math.max(...semanas, 1);
+            
+            // Atualiza as barras
+            for (let i = 0; i < 5; i++) {
+                const bar = document.getElementById(`bar-semana-${i + 1}`);
+                if (bar) {
+                    const porcentagem = (semanas[i] / maxHoras) * 100;
+                    bar.style.height = `${porcentagem}%`;
+                    bar.setAttribute('data-horas', semanas[i].toFixed(1));
+                }
+            }
+            
+            return semanas;
+        }
+
+        // --- Função para gerar o Relatório Mensal ---
+        function gerarRelatorioMensal() {
+            const selectMes = document.getElementById('select-mes-relatorio');
+            const mesSelecionado = selectMes.value; // Formato: "2024-01"
+            
+            // Pega todos os registros de estudo
+            const registros = JSON.parse(localStorage.getItem('academicflow_registros') || '[]');
+            
+            // Filtra registros que pertencem ao mês selecionado
+            const registrosFiltrados = registros.filter(registro => {
+                const partesData = registro.data.split('/');
+                const dataRegistro = new Date(`${partesData[2]}-${partesData[1]}-${partesData[0]}`);
+                
+                return dataRegistro.getFullYear() === parseInt(mesSelecionado.split('-')[0]) &&
+                       (dataRegistro.getMonth() + 1) === parseInt(mesSelecionado.split('-')[1]);
+            });
+
+            // --- CÁLCULO SEMANAL ---
+            const semanas = calcularProgressoSemanal(registrosFiltrados);
+            const totalHoras = registrosFiltrados.reduce((acc, r) => acc + r.horas, 0);
+            const totalSessoes = registrosFiltrados.length;
+            const diasEstudados = new Set(registrosFiltrados.map(r => r.data)).size;
+            const mediaDiaria = totalHoras / 30;
+
+            // Atualiza os elementos HTML
+            document.getElementById('relatorio-total-horas').textContent = `${totalHoras.toFixed(1)}h`;
+            document.getElementById('relatorio-sessoes').textContent = totalSessoes;
+            document.getElementById('relatorio-media-dia').textContent = `${mediaDiaria.toFixed(1)}h`;
+            
+            // Atualiza barra de progresso (Meta de 60h)
+            const meta = 60;
+            const porcentagem = Math.min((totalHoras / meta) * 100, 100);
+            document.getElementById('barra-progresso-mes').style.width = `${porcentagem}%`;
+            document.getElementById('progresso-texto').textContent = `${porcentagem.toFixed(0)}% concluído`;
+            document.getElementById('horas-faltantes').textContent = `${Math.max(0, meta - totalHoras).toFixed(1)}h restantes`;
+
+            // Atualiza lista de matérias no relatório
+            const listaMateriasRelatorio = document.getElementById('lista-materias-relatorio');
+            listaMateriasRelatorio.innerHTML = '';
+
+            if (registrosFiltrados.length === 0) {
+                listaMateriasRelatorio.innerHTML = '<li style="text-align: center; color: var(--text-secondary); padding: 1rem;">Nenhum registro neste mês.</li>';
+            } else {
+                // Agrupa por matéria
+                const materias = {};
+                registrosFiltrados.forEach(r => {
+                    if (!materias[r.materia]) materias[r.materia] = 0;
+                    materias[r.materia] += r.horas;
+                });
+
+                // Ordena por horas (maior para menor)
+                const materiasOrdenadas = Object.entries(materias).sort((a, b) => b[1] - a[1]);
+
+                materiasOrdenadas.forEach(([nome, horas]) => {
+                    const li = document.createElement('li');
+                    li.className = 'materia-relatorio-item';
+                    
+                    // Calcula porcentagem da barra da matéria
+                    const maxHorasMateria = materiasOrdenadas[0][1];
+                    const porcentagemBarra = (horas / maxHorasMateria) * 100;
+
+                    li.innerHTML = `
+                        <div class="materia-relatorio-info">
+                            <span class="materia-relatorio-nome">${nome}</span>
+                            <span class="materia-relatorio-horas">${horas.toFixed(1)}h</span>
+                        </div>
+                        <div class="materia-relatorio-bar">
+                            <div class="materia-relatorio-bar-fill" style="width: ${porcentagemBarra}%"></div>
+                        </div>
+                    `;
+                    listaMateriasRelatorio.appendChild(li);
+                });
+            }
+        }
+
+        // --- Variáveis de Nível e XP ---
+        const XP_POR_HORA = 10; // XP ganho por hora estudada
+        const XP_BONUS_CONSISTENCIA = 20; // XP bônus por estudar 3+ dias na semana
+        const XP_BONUS_META = 50; // XP bônus por atingir a meta mensal
+        
+        // Função para carregar dados do usuário
+        function carregarDadosUsuario() {
+            const usuario = JSON.parse(localStorage.getItem('academicflow_session') || '{}');
+            return {
+                nivel: usuario.nivel || 0,
+                xpAtual: usuario.xpAtual || 0,
+                xpProximoNivel: usuario.xpProximoNivel || 100
+            };
+        }
+
+        // Função para salvar dados do usuário
+        function salvarDadosUsuario(nivel, xpAtual, xpProximoNivel) {
+            const usuario = JSON.parse(localStorage.getItem('academicflow_session') || '{}');
+            usuario.nivel = nivel;
+            usuario.xpAtual = xpAtual;
+            usuario.xpProximoNivel = xpProximoNivel;
+            localStorage.setItem('academicflow_session', JSON.stringify(usuario));
+        }
+
+        // Função para calcular XP baseado no desempenho
+        function calcularXP() {
+            const dadosUsuario = carregarDadosUsuario();
+            const registros = JSON.parse(localStorage.getItem('academicflow_registros') || '[]');
+            
+            // XP por horas estudadas (últimos 30 dias)
+            const totalHoras = registros.reduce((acc, r) => acc + r.horas, 0);
+            const xpPorHoras = totalHoras * XP_POR_HORA;
+            
+            // XP por consistência (dias estudados na semana)
+            const diasEstudados = new Set(registros.map(r => r.data)).size;
+            const xpPorConsistencia = diasEstudados >= 3 ? XP_BONUS_CONSISTENCIA : 0;
+            
+            // XP por atingir meta mensal
+            const selectMes = document.getElementById('select-mes-relatorio');
+            if (selectMes) {
+                const mesSelecionado = selectMes.value;
+                const registrosFiltrados = registros.filter(registro => {
+                    const partesData = registro.data.split('/');
+                    const dataRegistro = new Date(`${partesData[2]}-${partesData[1]}-${partesData[0]}`);
+                    return dataRegistro.getFullYear() === parseInt(mesSelecionado.split('-')[0]) &&
+                           (dataRegistro.getMonth() + 1) === parseInt(mesSelecionado.split('-')[1]);
+                });
+                
+                const totalHorasMes = registrosFiltrados.reduce((acc, r) => acc + r.horas, 0);
+                const meta = 60;
+                const xpPorMeta = totalHorasMes >= meta ? XP_BONUS_META : 0;
+            }
+            
+            // XP total
+            const xpTotal = xpPorHoras + xpPorConsistencia + (xpPorMeta || 0);
+            
+            // Calcular nível e XP necessário
+            let nivel = dadosUsuario.nivel;
+            let xpAtual = dadosUsuario.xpAtual + xpTotal;
+            let xpProximoNivel = dadosUsuario.xpProximoNivel || 100;
+            
+            // Subir de nível
+            while (xpAtual >= xpProximoNivel) {
+                xpAtual -= xpProximoNivel;
+                nivel++;
+                xpProximoNivel = Math.floor(xpProximoNivel * 1.5); // Aumenta dificuldade
+            }
+            
+            return { nivel, xpAtual, xpProximoNivel };
+        }
+
+        // --- Função para atualizar a UI de progresso com animação ---
+        function atualizarProgressoUsuario(comAnimacao = false) {
+            const dadosUsuario = carregarDadosUsuario();
+            const registros = JSON.parse(localStorage.getItem('academicflow_registros') || '[]');
+            
+            // XP por horas estudadas (últimos 30 dias)
+            const totalHoras = registros.reduce((acc, r) => acc + r.horas, 0);
+            const xpPorHoras = totalHoras * XP_POR_HORA;
+            
+            // XP por consistência (dias estudados na semana)
+            const diasEstudados = new Set(registros.map(r => r.data)).size;
+            const xpPorConsistencia = diasEstudados >= 3 ? XP_BONUS_CONSISTENCIA : 0;
+            
+            // XP por atingir meta mensal
+            const selectMes = document.getElementById('select-mes-relatorio');
+            let xpPorMeta = 0;
+            if (selectMes) {
+                const mesSelecionado = selectMes.value;
+                const registrosFiltrados = registros.filter(registro => {
+                    const partesData = registro.data.split('/');
+                    const dataRegistro = new Date(`${partesData[2]}-${partesData[1]}-${partesData[0]}`);
+                    return dataRegistro.getFullYear() === parseInt(mesSelecionado.split('-')[0]) &&
+                           (dataRegistro.getMonth() + 1) === parseInt(mesSelecionado.split('-')[1]);
+                });
+                
+                const totalHorasMes = registrosFiltrados.reduce((acc, r) => acc + r.horas, 0);
+                const meta = 60;
+                xpPorMeta = totalHorasMes >= meta ? XP_BONUS_META : 0;
+            }
+            
+            // XP total
+            const xpTotal = xpPorHoras + xpPorConsistencia + xpPorMeta;
+            
+            // Calcular nível e XP necessário
+            let nivel = dadosUsuario.nivel;
+            let xpAtual = dadosUsuario.xpAtual + xpTotal;
+            let xpProximoNivel = dadosUsuario.xpProximoNivel || 100;
+            
+            // Verificar se vai subir de nível
+            const nivelAntigo = nivel;
+            
+            // Subir de nível
+            while (xpAtual >= xpProximoNivel) {
+                xpAtual -= xpProximoNivel;
+                nivel++;
+                xpProximoNivel = Math.floor(xpProximoNivel * 1.5);
+            }
+            
+            // Atualiza elementos HTML
+            document.getElementById('user-nivel').textContent = `Nível ${nivel}`;
+            document.getElementById('user-xp').textContent = `${xpAtual} / ${xpProximoNivel} XP`;
+            
+            // Atualiza barra de XP
+            const porcentagem = (xpAtual / xpProximoNivel) * 100;
+            const barraXP = document.getElementById('barra-xp');
+            if (barraXP) {
+                barraXP.style.width = `${porcentagem}%`;
+            }
+            
+            // Atualiza XP próximo
+            document.getElementById('xp-proximo').textContent = `${xpProximoNivel} XP`;
+            
+            // Atualiza total de horas totais
+            document.getElementById('total-horas-totais').textContent = `${totalHoras.toFixed(1)}h`;
+            
+            // Salva dados
+            salvarDadosUsuario(nivel, xpAtual, xpProximoNivel);
+            
+            // Animação de Level Up
+            if (comAnimacao && nivel > nivelAntigo) {
+                animarLevelUp(nivel, nivelAntigo);
+            }
+        }
+
+        // --- Função de Animação de Level Up ---
+        function animarLevelUp(nivelNovo, nivelAntigo) {
+            const nivelElement = document.getElementById('user-nivel');
+            const barraXP = document.getElementById('barra-xp');
+            
+            // Efeito de pulso no nível
+            nivelElement.classList.add('nivel-up');
+            nivelElement.style.color = '#fff';
+            nivelElement.style.textShadow = '0 0 20px var(--accent-color)';
+            
+            // Efeito de brilho na barra de XP
+            barraXP.style.boxShadow = '0 0 30px var(--accent-color)';
+            barraXP.style.transform = 'scale(1.1)';
+            
+            // Mostrar mensagem de level up
+            const mensagemLevelUp = document.createElement('div');
+            mensagemLevelUp.className = 'notification';
+            mensagemLevelUp.innerHTML = `🎉 <strong>LEVEL UP!</strong><br>Você alcançou o Nível ${nivelNovo}!`;
+            document.body.appendChild(mensagemLevelUp);
+            
+            // Animação da mensagem
+            setTimeout(() => {
+                mensagemLevelUp.style.display = 'block';
+            }, 100);
+            
+            // Remover animações após 3 segundos
+            setTimeout(() => {
+                nivelElement.classList.remove('nivel-up');
+                nivelElement.style.color = 'var(--accent-color)';
+                nivelElement.style.textShadow = 'none';
+                barraXP.style.boxShadow = '0 0 10px rgba(74, 222, 128, 0.4)';
+                barraXP.style.transform = 'scale(1)';
+                mensagemLevelUp.style.display = 'none';
+            }, 3000);
+            
+            // Remover elemento da mensagem
+            setTimeout(() => {
+                mensagemLevelUp.remove();
+            }, 3500);
+        }
+
+        // --- Inicialização do Relatório e Progresso ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Gera os meses do select
+            atualizarSelectMeses();
+            
+            // Gera o relatório inicial
+            gerarRelatorioMensal();
+            
+            // Atualiza o relatório quando o usuário mudar o mês
+            const selectMes = document.getElementById('select-mes-relatorio');
+            if (selectMes) {
+                selectMes.addEventListener('change', gerarRelatorioMensal);
+            }
+            
+            // Atualiza o progresso do usuário
+            atualizarProgressoUsuario();
+            
+            // Atualiza total de horas totais
+            const registros = JSON.parse(localStorage.getItem('academicflow_registros') || '[]');
+            const totalHorasTotais = registros.reduce((acc, r) => acc + r.horas, 0);
+            document.getElementById('total-horas-totais').textContent = `${totalHorasTotais.toFixed(1)}h`;
+        });
+
+        // --- Som de Level Up (Opcional) ---
+        function tocarSomLevelUp() {
+            const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-level-up-201.mp3');
+            audio.volume = 0.5;
+            audio.play().catch(e => console.log('Som não suportado:', e));
+        }
+
+        // Chame esta função dentro de animarLevelUp()
+        function animarLevelUp(nivelNovo, nivelAntigo) {
+            // ... código existente ...
+            tocarSomLevelUp(); // Adicione esta linha
+        }
+    </script>
+</body>
+</html>
