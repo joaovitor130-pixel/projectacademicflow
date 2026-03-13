@@ -77,15 +77,29 @@
         }
 
         .user-avatar {
-            width: 32px;
-            height: 32px;
-            background: var(--accent-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--bg-primary);
-            font-weight: bold;
+            width: 36px !important;
+            height: 36px !important;
+            border-radius: 50% !important;
+            border: 2px solid var(--accent-color) !important; /* ← BORDA VERDE */
+            background: transparent !important; /* ← FUNDO TRANSPARENTE */
+            color: var(--accent-color) !important; /* ← TEXTO VERDE */
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 1rem !important;
+            font-weight: 700 !important;
+            line-height: 1 !important;
+
+            /* FIX OVAL → CÍRCULO */
+            aspect-ratio: 1/1 !important; /* Força proporção quadrada */
+            flex-shrink: 0 !important; /* Não deforma */
+        }
+
+        /* 2. Nome SEMPRE visível ao lado */
+        #user-name {
+            display: inline !important; /* ← VISÍVEL */
+            font-size: 0.9rem !important;
+            white-space: nowrap !important; /* Não quebra linha */
         }
 
         .btn-logout {
@@ -106,9 +120,18 @@
 
         /* --- Container Principal --- */
         .dashboard-container {
-            padding: 100px 2rem 2rem;
-            max-width: var(--container-width);
+            padding: 100px 1rem 2rem;
+            max-width: 400px; /* Mantém centralizado e estreito no celular */
             margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* LIBERA A LARGURA NO DESKTOP */
+        @media (min-width: 1024px) {
+            .dashboard-container {
+                max-width: 1000px; /* Define uma largura confortável para os dois cards */
+            }
         }
 
         /* --- Seção de Boas-vindas --- */
@@ -129,29 +152,53 @@
         /* --- Grid do Dashboard --- */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr; /* 1 coluna no celular */
             gap: 2rem;
+            width: 100%;
         }
 
+        /* ATIVA DUAS COLUNAS NO DESKTOP */
+        @media (min-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr 1fr; /* Timer e Matérias lado a lado */
+                align-items: start; /* Alinha os cards pelo topo */
+            }
+        }
+        
         /* --- Cards --- */
         .card {
             background-color: var(--bg-secondary);
-            padding: 2rem;
-            border-radius: 16px;
+            padding: 1.5rem; /* Reduzido de 2rem */
+            border-radius: 20px; /* Aumentado para mais modernidade */
             border: 1px solid var(--border-color);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); /* Sombra para profundidade */
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-hover));
         }
 
         .card h3 {
-            margin-bottom: 1.5rem;
+            font-size: 1.3rem !important; /* Títulos maiores */
+            margin-bottom: 1.2rem;
             color: var(--text-primary);
         }
 
         /* --- Timer Circular --- */
         .timer-circle {
             position: relative;
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 2rem;
+            width: 160px; /* Reduzido de 200px */
+            height: 160px;
+            margin: 0 auto 1.5rem; /* Reduzido gap */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -178,52 +225,42 @@
         }
 
         .time-display {
-            font-size: 3rem;
+            font-size: 2.8rem !important;
             font-weight: 700;
             color: var(--text-primary);
             display: block;
         }
 
         .time-label {
-            font-size: 0.9rem;
+            font-size: 1rem !important;
             color: var(--text-secondary);
         }
 
         .timer-controls {
             display: flex;
-            gap: 1rem;
+            gap: 0.75rem; /* Reduzido para melhor aproveitamento */
             width: 100%;
             justify-content: center;
+            flex-wrap: wrap; /* Quebra linha no mobile */
         }
 
-        .btn-start {
-            background: var(--accent-color);
-            color: var(--bg-primary);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.2s;
+        .btn-start, .btn-pause, .btn-reset {
+            padding: 12px 24px; /* Maior área de toque */
+            border-radius: 12px; /* Mais arredondado */
+            font-weight: 600;
+            font-size: 0.95rem;
+            min-width: 90px; /* Largura mínima para touch */
+            transition: all 0.3s ease;
         }
 
         .btn-start:hover {
             background: var(--accent-hover);
         }
 
-        .btn-pause {
-            background: transparent;
-            border: 1px solid var(--text-secondary);
-            color: var(--text-secondary);
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
 
         .btn-pause:hover {
-            border-color: var(--text-primary);
-            color: var(--text-primary);
+            background-color: #f0daff;
+            color: black);
         }
 
         /* --- Lista de Matérias --- */
@@ -290,8 +327,45 @@
 
         /* --- Responsividade --- */
         @media (max-width: 768px) {
+            .card {
+                padding: 1.25rem; /* Ainda menor no mobile */
+                width: 100%; /* Força largura total */
+                max-width: 100%; /* Limite máximo elegante */
+                margin: 0 auto; /* Centraliza cada card individual */
+            }
+            
+            .timer-circle {
+                width: 140px; /* Perfeito para mobile */
+                height: 140px;
+            }
+            
+            .time-display {
+                font-size: 2.2rem !important; /* Força tamanho ideal */
+            }
+            
+            .timer-controls {
+                gap: 0.5rem;
+            }
+            
+            .btn-start, .btn-pause, .btn-reset {
+                padding: 14px 20px; /* Ainda maior no mobile */
+                flex: 1;
+                min-width: 80px;
+            }
+
             .dashboard-grid {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
+                justify-items: center;
+                width: 100%;
+                max-width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+
+            .dashboard-container {
+                padding: 100px 0.75rem 2rem; /* Margem lateral MÍNIMA */
+                max-width: 100%; /* Usa 100% da tela */
             }
             
             .timer-circle {
@@ -302,7 +376,14 @@
             .time-display {
                 font-size: 2.5rem;
             }
+
+            /* Footer também centralizado */
+            footer {
+                padding: 2rem 1rem; /* Footer sem overflow */
+                margin-top: 2rem;
+            }
         }
+
         /* Input para adicionar matéria */
         #nova-materia {
             flex: 1;
@@ -340,20 +421,9 @@
             color: var(--text-primary);
         }
         
-        /* Botão de Reiniciar */
-        .btn-reset {
-            background: transparent;
-            border: 1px solid var(--text-secondary);
-            color: var(--text-secondary);
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
 
         .btn-reset:hover {
-            border-color: var(--accent-color);
-            color: var(--accent-color);
+            background-color: #ef4444;
         }
 
         /* Notificação de Conclusão */
@@ -997,7 +1067,227 @@
         #barra-xp.glow {
             animation: xpGlow 1s ease;
         }
+
+        /* 2. INPUTS E SELECTS PERFEITOS (SUBSTITUA todos os inputs inline) */
+        @media (max-width: 768px) {
+            input, select, button {
+                font-size: 1rem !important; /* Texto legível */
+                padding: 14px 16px !important; /* Altura touch-friendly */
+                min-height: 48px !important; /* Altura MÍNIMA iOS */
+            }
+            
+            /* Formulários quebram linha perfeitamente */
+            [style*="display: flex"], .timer-controls {
+                flex-direction: column !important; /* ❌ Stack vertical */
+                gap: 12px !important;
+                align-items: stretch !important;
+            }
+            
+            /* Botões ocupam largura total */
+            .btn-start, .btn-pause, .btn-reset, button[onclick] {
+                width: 100% !important;
+                justify-content: center !important;
+            }
+        }
+
+        /* 3. LISTAS E ITENS SEM CORTAR (ADICIONE) */
+        @media (max-width: 768px) {
+            .subject-item, .file-item, .nota-item, .registro-item {
+                padding: 1.25rem !important; /* Mais espaço interno */
+                flex-direction: column !important; /* Stack vertical */
+                gap: 12px !important;
+                text-align: center !important;
+                align-items: flex-start !important;
+            }
+            
+            .subject-item div, .file-actions, .nota-individual-actions {
+                width: 100% !important;
+                justify-content: space-between !important;
+            }
+        }
+
+        /* 4. GRÁFICOS RESPONSIVOS (SUBSTITUA .chart-container) */
+        @media (max-width: 768px) {
+            .chart-container {
+                flex-direction: row !important; /* ← Horizontal */
+                justify-content: space-around !important; /* Espaçamento uniforme */
+                height: 120px !important; /* Altura menor */
+                gap: 0.5rem !important;
+            }
+            
+            .bar-group {
+                flex-direction: column-reverse !important; /* Label embaixo */
+                align-items: center !important;
+                min-width: 35px !important; /* Largura fixa */
+            }
+            
+            .bar {
+                width: 100% !important; /* Largura total do grupo */
+                max-width: 30px !important;
+                height: 8px !important; /* Base horizontal */
+            }
+
+            .bar-label {
+                font-size: 0.7rem !important; /* Label menor */
+                margin-top: 4px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* HEADER SUPER COMPACTO */
+            header {
+                padding: 0.5rem 0 !important; /* Altura MÍNIMA */
+            }
+            
+            .nav-container {
+                padding: 0.5rem 1rem !important; /* Padding mínimo */
+            }
+            
+            /* Logo: SÓ ícone */
+            .logo {
+                font-size: 1rem !important;
+            }
+            .logo span { /* Esconde texto "AcademicFlow" */
+                display: none !important;
+            }
+            .logo svg {
+                width: 24px !important;
+                height: 24px !important;
+            }
+            
+            /* User: SÓ avatar + Sair */
+            #user-name {
+                font-size: 0.85rem !important; /* Pequeno mas legível */
+                max-width: 80px !important; /* Limite */
+                overflow: hidden !important;
+                text-overflow: ellipsis !important; /* "João S..." */
+            }
+            
+            .user-avatar {
+                width: 32px !important;
+                height: 32px !important;
+            }
+            
+            .btn-logout {
+                padding: 6px 12px !important; /* ← MENOR */
+                font-size: 0.8rem !important;
+                min-height: 32px !important; /* ← Compacto */
+            }
+        }
+
+        @media (min-width: 769px) {
+            /* Rodapé EXPANDE pros lados */
+            footer {
+                padding: 3rem 0 !important; /* ← Sem padding lateral */
+                margin-left: calc(-50vw + 50%); /* ← Expande tela toda */
+                margin-right: calc(-50vw + 50%);
+                width: 100vw !important;
+                max-width: none !important;
+            }
+            
+            footer > div {
+                max-width: var(--container-width) !important; /* ← Conteúdo centralizado */
+                margin: 0 auto !important;
+                padding: 0 2rem !important;
+            }
+            
+            footer div[style*="grid"] {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important; /* ← Auto-preenche */
+                gap: 3rem !important;
+                width: 100% !important;
+            }
+            
+            /* Linha inferior ocupa toda largura */
+            footer div[style*="flex"][style*="justify-content: space-between"] {
+                max-width: 100% !important;
+                padding: 0 3% !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Rodapé 100% centralizado */
+            footer {
+                text-align: center !important;
+                padding: 1.5rem 1rem !important;
+            }
+            
+            footer > div {
+                display: block !important; /* Stack vertical */
+                text-align: center !important;
+            }
+
+            footer div[style*="display: flex"][style*="gap: 10px"] {
+                flex-direction: row !important; /* ← Linha */
+                justify-content: center !important;
+                gap: 8px !important;
+                margin-bottom: 0.75rem !important;
+            }
+            
+            footer div[style*="grid"] {
+                grid-template-columns: 1fr !important; /* 1 coluna */
+                gap: 1.5rem !important;
+                text-align: center !important;
+            }
+            
+            /* Linha inferior centralizada */
+            footer div[style*="flex"][style*="justify-content: space-between"] {
+                flex-direction: column !important;
+                gap: 1rem !important;
+                text-align: center !important;
+            }
+            
+            /* Ícones redes sociais centralizados */
+            footer div[style*="display: flex"][style*="gap: 1rem"] {
+                justify-content: center !important;
+            }
+
+            footer svg[style*="width: 24px"] {
+                width: 20px !important;
+                height: 20px !important;
+            }
+            
+            footer span[style*="font-weight: 700"] {
+                font-size: 1.1rem !important;
+            }
+
+            /* Redes sociais HORIZONTAL */
+            footer div[style*="display: flex"][style*="gap: 1rem"] {
+                flex-direction: row !important; /* ← Horizontal */
+                justify-content: center !important;
+                gap: 1rem !important;
+                margin-top: 1rem !important;
+            }
+            
+            footer a[style*="width: 40px"] {
+                width: 36px !important;
+                height: 36px !important;
+            }
+            
+            /* Forçar os dois primeiros cards a ficarem lado a lado no Desktop */
+            @media (min-width: 1024px) {
+                .dashboard-grid {
+                    grid-template-columns: 1fr 1fr; /* Divide em duas colunas iguais */
+                }
+                
+                /* Opcional: Se quiser que os outros cards (Arquivos, Notas, etc) 
+                continuem em 2 colunas, mantenha como acima. 
+                Se quiser que o card de "Progresso" ocupe a linha toda, use: */
+                .dashboard-grid > .card:nth-last-child(1) {
+                    grid-column: span 2;
+                }
+
+                .dashboard-container {
+                    max-width: 1200px; /* Permite que o container expanda no desktop */
+                }
+
+                .dashboard-grid {
+                    grid-template-columns: 1fr 1fr; /* Timer e Matérias lado a lado */
+                }
+                
+            }
+        }
     </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 </head>
 <body>
 
