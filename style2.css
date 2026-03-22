@@ -1,0 +1,1395 @@
+:root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #0b1120;
+            --glass-bg: rgba(30, 41, 59, 0.8);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-primary: #4ade80;
+            --accent-hover: #22c55e;
+            --accent-glow: rgba(74, 222, 128, 0.3);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.15);
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 0 20px rgba(74, 222, 128, 0.4);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+        
+        body {
+            font-family: var(--font-main);
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-tertiary) 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        /* HEADER - CÓDIGO COMPLETO */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--border-subtle);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-smooth);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+
+        .logo:hover {
+            color: var(--accent-primary);
+        }
+
+        .logo-icon-svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--accent-primary);
+            flex-shrink: 0;
+            transition: var(--transition-fast);
+        }
+
+        .logo:hover .logo-icon-svg {
+            filter: drop-shadow(0 0 8px var(--accent-glow));
+        }
+
+        .logo-text {
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-shrink: 0;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .user-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-hover));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--bg-primary);
+            box-shadow: var(--shadow-md), 0 0 0 4px rgba(74, 222, 128, 0.2);
+            transition: var(--transition-fast);
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-avatar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .user-avatar:hover::before { left: 100%; }
+        .user-avatar:hover { transform: scale(1.05); box-shadow: var(--shadow-md), 0 0 25px var(--accent-glow); }
+
+        .user-name {
+            font-size: 0.95rem;
+            font-weight: 500;
+            white-space: nowrap;
+            max-width: 140px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            opacity: 0.95;
+        }
+
+        .btn-logout {
+            background: transparent;
+            border: 1.5px solid var(--border-subtle);
+            color: var(--text-secondary);
+            padding: 0.625rem 1.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: var(--transition-smooth);
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-logout::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn-logout:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            background: rgba(74, 222, 128, 0.1);
+            box-shadow: 0 4px 15px var(--accent-glow);
+            transform: translateY(-1px);
+        }
+
+        .btn-logout:hover::before { left: 100%; }
+        .btn-logout:active { transform: translateY(0); }
+
+        /* RESPONSIVO */
+        @media (max-width: 768px) {
+            .header-container { padding: 0 1rem; height: 64px; }
+            .logo { font-size: 1.25rem; gap: 0.5rem; }
+            .logo-icon { width: 32px; height: 32px; }
+            .logo-icon svg { width: 20px; height: 20px; }
+            .user-avatar { width: 38px; height: 38px; font-size: 1rem; }
+            .user-name { font-size: 0.875rem; max-width: 100px; }
+            .btn-logout { padding: 0.5rem 1.125rem; font-size: 0.8125rem; }
+        }
+
+        @media (max-width: 480px) {
+            .header-container { padding: 0 0.875rem; }
+            .logo-text { display: none; }
+            .user-name { display: none; }
+            .user-profile { gap: 0.5rem; }
+            .btn-logout { padding: 0.5rem 1rem; font-size: 0.75rem; min-width: 56px; }
+        }
+
+       /* TIMER CARD - DESIGN MODERNO E REFINADO */
+        .timer-card {
+            background: rgba(30, 41, 59, 0.7) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            
+            /* REMOVIDO: position absolute, top, left, right */
+            /* ADICIONADO: Flex e Transição para o salto */
+            flex: 1;
+            min-width: 350px;
+            min-height: 500px !important; /* Adicione esta altura para padronizar */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Centraliza o timer verticalmente */
+            
+            /* Transição suave para o efeito de hover */
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                        box-shadow 0.3s ease, 
+                        border-color 0.3s ease !important;
+        }
+
+        .timer-card:hover {
+            transform: translateY(-8px); /* Salto */
+            border-color: rgba(74, 222, 128, 0.4) !important; /* Borda brilha verde */
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6), 
+                        0 0 20px rgba(74, 222, 128, 0.15); /* Sombra neon verde */
+        }
+
+        .card-header {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .timer-card h3 {
+            font-size: 0.9rem !important;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent-primary);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Círculo do Timer Refinado */
+        .timer-circle {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timer-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 6px solid rgba(255, 255, 255, 0.05);
+            /* O "progresso" visual */
+            border-top: 6px solid var(--accent-primary);
+            filter: drop-shadow(0 0 8px var(--accent-glow));
+            animation: spin 3s linear infinite;
+            animation-play-state: paused;
+        }
+
+        .timer-text {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .time-display {
+            font-size: 3.5rem !important;
+            font-weight: 800;
+            font-variant-numeric: tabular-nums; /* Evita que os números "pulem" */
+            letter-spacing: -2px;
+            background: linear-gradient(180deg, #fff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+        }
+
+        .time-label {
+            font-size: 0.75rem !important;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Controles Estilizados */
+        .timer-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            width: 100%;
+        }
+
+        .btn-timer {
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-start {
+            grid-column: span 2;
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            border: none;
+        }
+
+        .btn-start:hover:not(:disabled) {
+            background: #5ef095;
+            box-shadow: 0 0 20px var(--accent-glow);
+            transform: scale(1.02);
+        }
+
+        .btn-pause {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .btn-pause:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--text-secondary);
+        }
+
+        .btn-reset {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+
+        .btn-reset:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        /* Esconder notificações originais para não poluir se não chamadas */
+        .notification {
+            background: var(--bg-secondary) !important;
+            border: 1px solid var(--accent-primary) !important;
+            color: var(--accent-primary) !important;
+            backdrop-filter: blur(10px);
+        }
+
+        /* --- AJUSTE PARA MOBILE (O segredo para não cortar) --- */
+        @media (max-width: 1024px) {
+            .timer-card {
+                position: relative; /* Remove o absolute para não flutuar */
+                top: 20px;          /* Espaço simples do topo */
+                left: 0;
+                margin: 0 auto;     /* Centraliza na tela */
+                width: 90%;         /* Ocupa quase toda a largura do celular */
+                max-width: 400px;
+                right: auto;        /* Reseta o valor que estava cortando */
+            }
+
+            .dashboard-container {
+                padding: 0 1rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Ajustes extras para celulares muito pequenos */
+        @media (max-width: 480px) {
+            .time-display {
+                font-size: 2.8rem !important;
+            }
+            .timer-circle {
+                width: 150px;
+                height: 150px;
+            }
+        }
+
+        /* --- LAYOUT DO DASHBOARD (A MÁGICA LADO A LADO) --- */
+        .dashboard-grid {
+            display: flex;
+            flex-wrap: wrap; /* Permite quebrar linha no mobile */
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 40px auto 20px auto;
+            padding: 0 1.5rem;
+            align-items: flex-start;
+            justify-content: center;
+            margin-bottom: 20px !important;
+        }
+
+        /* --- ESTILO BASE PARA AMBOS OS CARDS --- */
+        .card {
+            background: rgba(30, 41, 59, 0.7) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            transition: all 0.3s ease;
+            flex: 1; /* Faz os cards tentarem ocupar o mesmo espaço */
+            min-width: 350px; /* Largura mínima para não esmagar no desktop */
+            position: relative !important; /* IMPORTANTE: Remove o absolute */
+            top: 0 !important;
+            left: 0 !important;
+        }
+
+        /* --- ESPECÍFICO DO SEGUNDO CARD (MATÉRIAS) --- */
+        .subject-card {
+            background: rgba(30, 41, 59, 0.7) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            
+            /* Efeito de transição suave */
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                        box-shadow 0.3s ease, 
+                        border-color 0.3s ease !important;
+            
+            display: flex !important;
+            flex-direction: column !important;
+            height: 500px !important;
+            min-height: 500px !important;
+            justify-content: flex-start !important;
+            position: relative;
+
+            flex: 1;
+            min-width: 350px;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-8px); /* Salta para cima */
+            border-color: rgba(74, 222, 128, 0.4) !important; /* Brilho verde na borda */
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6), 
+                        0 0 20px rgba(74, 222, 128, 0.1); /* Sombra mais profunda e brilho leve */
+        }
+
+        .subject-card h3 {
+            font-size: 0.85rem !important;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent-primary) !important; /* Verde */
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        /* Ajusta apenas a lista dentro da Grade de Estudos */
+        .subject-card .subject-list {
+            list-style: none;
+            overflow-y: auto; /* Ativa o scroll se houver muitas matérias */
+            max-height: 220px !important; /* Limita a altura para manter o card em 500px */
+            padding-right: 8px;
+            margin-top: 10px;
+            
+            /* Scrollbar estilizada para combinar com o seu tema */
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-primary) transparent;
+        }
+
+        /* Estilo para Chrome/Edge da scrollbar interna */
+        .subject-card .subject-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .subject-card .subject-list::-webkit-scrollbar-thumb {
+            background: var(--accent-primary);
+            border-radius: 10px;
+        }
+
+        /* Ajuste específico para o formulário da Grade de Estudos */
+        .subject-card .input-row {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr; /* Dá mais equilíbrio entre o nome e o dia */
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        /* Estilização refinada para o select de dias */
+        #dia-estudo {
+            cursor: pointer;
+            appearance: none; /* Remove a seta padrão para usar a personalizada */
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234ade80' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 10px center !important;
+            padding-right: 30px !important; /* Espaço para a seta não sobrepor o texto */
+            font-size: 0.85rem !important;
+        }
+
+        .subject-card .btn-add-subject {
+            width: 100%;
+            margin-top: 5px;
+            padding: 12px !important;
+            font-size: 0.85rem !important;
+        }
+
+        /* Formulário de Adição */
+        .subject-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 10px;
+        }
+
+        .subject-form input, 
+        .subject-form select {
+            background: rgba(15, 23, 42, 0.6) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: #fff !important;
+            padding: 12px 15px !important;
+            border-radius: 12px !important;
+            font-size: 0.9rem;
+        }
+
+        .subject-form input:focus {
+            border-color: var(--accent-color) !important;
+            outline: none;
+        }
+
+        .btn-add-subject {
+            background: var(--accent-primary) !important;
+            color: var(--bg-primary) !important;
+            border: none !important;
+            padding: 14px !important;
+            border-radius: 12px !important;
+            font-weight: 700 !important;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: var(--transition-fast);
+        }
+
+        .btn-add-subject:hover {
+            background: var(--accent-hover) !important;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        /* Garante que o ícone do botão acompanhe a cor do texto */
+        .btn-add-subject svg {
+            stroke: var(--bg-primary); 
+        }
+
+        /* Lista de Matérias Estilizada */
+        .subject-list {
+            list-style: none;
+            overflow-y: auto;
+            max-height: 180px;
+            padding-right: 5px;
+        }
+
+        .subject-item {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            padding: 12px 16px !important;
+            border-radius: 14px !important;
+            margin-bottom: 10px !important;
+            display: flex !important;
+            flex-direction: row !important; /* Garante lado a lado interno */
+            align-items: center !important;
+            justify-content: space-between !important;
+        }
+
+        .subject-name {
+            font-weight: 500;
+            color: #f8fafc;
+        }
+
+        .subject-tag {
+            background: rgba(74, 222, 128, 0.15);
+            color: var(--accent-color);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        /* --- AJUSTE MOBILE --- */
+        @media (max-width: 768px) {
+            body {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                overflow-x: hidden !important;
+            }
+
+            .dashboard-grid {
+                width: 100% !important;
+                max-width: 100vw !important;
+                padding: 0 !important; /* Zerando o padding lateral do container pai */
+                margin: 20px 0 !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                left: 0 !important;
+            }
+
+            .timer-card, 
+            .subject-card, 
+            .file-card, 
+            .grade-card, 
+            .hours-card, 
+            .report-card, 
+            .xp-card,
+            .ai-card {
+                /* Define uma largura fixa e centraliza com margens automáticas */
+                width: 90% !important; 
+                margin-left: auto !important;
+                margin-right: auto !important;
+                
+                /* Força o reset de qualquer valor que empurre para a direita */
+                left: 0 !important;
+                right: 0 !important;
+                position: relative !important;
+                
+                /* Garante que padding e borda fiquem DENTRO dos 90% */
+                box-sizing: border-box !important;
+            }
+        }
+
+        /* --- CONFIGURAÇÃO DO CARD 3 (ARQUIVOS) --- */
+        .file-card {
+            background: rgba(30, 41, 59, 0.7) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            flex: 1;
+            min-width: 350px;
+            position: relative !important;
+            display: flex;
+            flex-direction: column;
+            min-height: 500px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease !important;
+        }
+
+        .file-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(74, 222, 128, 0.4) !important;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6), 0 0 20px rgba(74, 222, 128, 0.15);
+        }
+
+        .file-card h3 {
+            font-size: 0.85rem !important;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent-primary) !important;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        /* Controles de Arquivo */
+        .file-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-group label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .file-controls select, .file-controls input[type="file"] {
+            background: rgba(15, 23, 42, 0.6) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: #fff !important;
+            padding: 10px !important;
+            border-radius: 12px !important;
+            width: 100%;
+        }
+
+        .file-input-wrapper {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .btn-add-file {
+            background: var(--accent-primary) !important;
+            color: var(--bg-primary) !important;
+            border: none !important;
+            padding: 10px 20px !important;
+            border-radius: 12px !important;
+            font-weight: 700 !important;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+
+        .btn-add-file:hover {
+            background: var(--accent-hover) !important;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        /* Lista de Arquivos Estilizada */
+        .file-list-container {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 220px;
+        }
+
+        .file-item {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            padding: 12px !important;
+            border-radius: 14px !important;
+            margin-bottom: 8px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-icon { font-size: 1.2rem; }
+        .file-name { font-size: 0.9rem; font-weight: 500; color: #f8fafc; }
+        .file-meta { font-size: 0.7rem; color: var(--text-secondary); }
+
+        .btn-download {
+            background: transparent;
+            border: 1px solid var(--accent-primary);
+            color: var(--accent-primary);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+
+        /* --- CONFIGURAÇÃO DO CARD 4 (NOTAS) --- */
+        .grade-card {
+            background: rgba(30, 41, 59, 0.7) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            flex: 1;
+            min-width: 350px;
+            position: relative !important;
+            display: flex;
+            flex-direction: column;
+            min-height: 500px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease !important;
+        }
+
+        .grade-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(74, 222, 128, 0.4) !important;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6), 0 0 20px rgba(74, 222, 128, 0.15);
+        }
+
+        .grade-card h3 {
+            font-size: 0.85rem !important;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent-primary) !important;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .grade-list-container {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 220px;
+        }
+
+        /* Controles de Notas */
+        .grade-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-grade-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .grade-controls .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .grade-controls .input-row-action {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+        }
+
+        .grade-controls select, .grade-controls input {
+            background: rgba(15, 23, 42, 0.6) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: #fff !important;
+            padding: 10px !important;
+            border-radius: 12px !important;
+        }
+
+        .btn-add-grade {
+            background: var(--accent-primary) !important;
+            color: var(--bg-primary) !important;
+            border: none !important;
+            padding: 10px 20px !important;
+            border-radius: 12px !important;
+            font-weight: 700 !important;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+
+        .btn-add-grade:hover {
+            background: var(--accent-hover) !important;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        /* Estilo dos Itens de Nota */
+        .grade-item {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            padding: 15px !important;
+            border-radius: 14px !important;
+            margin-bottom: 10px !important;
+        }
+
+        .grade-badge {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+
+        .grade-info-text {
+            font-size: 0.9rem;
+            color: #f8fafc;
+            font-weight: 600;
+        }
+
+        .grade-subtext {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        /* Seleciona especificamente o Card 5 */
+        .hours-card {
+            background: rgba(30, 41, 59, 0.7) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            padding: 2rem;
+            flex: 1;
+            min-width: 350px;
+            
+            /* MUDANÇA PRINCIPAL: Força a altura igual ao card de notas */
+            height: 500px !important; 
+            min-height: 500px !important;
+            max-height: 500px !important;
+            
+            overflow: hidden !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: flex-start !important; /* Distribui os elementos para preencher o espaço */
+            transition: all 0.3s ease !important;
+        }
+
+        .hours-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(74, 222, 128, 0.4) !important;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6), 0 0 20px rgba(74, 222, 128, 0.15);
+        }
+
+        .hours-card h3 {
+            font-size: 0.85rem !important;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent-primary) !important;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        /* Controles */
+        .hours-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 8px !important;
+            margin-bottom: 0.5rem !important;
+        }
+
+        /* Centralização exclusiva para o botão do Card 5 */
+        .hours-card .input-row-action {
+            display: flex !important;
+            justify-content: center !important; /* Centraliza horizontalmente */
+            width: 100% !important;
+            margin-top: 10px !important;
+        }
+
+        .hours-card .btn-add-hours {
+            width: 80% !important; /* Largura sugerida para centralização elegante */
+            max-width: 250px;       /* Impede que fique gigante em telas maiores */
+            padding: 12px 20px !important;
+            margin: 0 auto !important;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Reduz o gráfico para caber mesmo com muitos dados */
+        .hours-card .chart-container {
+            height: 90px !important; /* Reduzido para dar respiro aos stats */
+            margin-top: 5px !important;
+            margin-bottom: 5px !important;
+        }
+
+        /* Limita a lista de registros para não empurrar os stats para fora */
+        .hours-card .record-list {
+            max-height: 55px !important; /* Mostra cerca de 1.5 registros com scroll */
+            overflow-y: auto !important;
+            margin-bottom: 5px !important;
+        }
+
+        /* Garante que os Stats fiquem colados na base do card */
+        .hours-card .stats-mini-grid {
+            margin-top: auto !important; /* Empurra para o final do card */
+            padding-bottom: 5px !important;
+        }
+
+        .hours-card .stat-box {
+            padding: 6px !important; /* Deixa os boxes mais finos */
+        }
+
+        .hours-controls .input-row, .hours-controls .input-row-action {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .hours-controls select, .hours-controls input {
+            background: rgba(15, 23, 42, 0.6) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: #fff !important;
+            padding: 10px !important;
+            border-radius: 12px !important;
+        }
+
+        .btn-add-hours {
+            background: var(--accent-primary) !important;
+            color: var(--bg-primary) !important;
+            border: none !important;
+            padding: 10px !important;
+            border-radius: 12px !important;
+            font-weight: 700 !important;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+
+        /* --- GRÁFICO REFINADO --- */
+        .chart-title {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .chart-container {
+            height: 120px !important;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end; /* Alinha as barras na base */
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+            margin-top: 10px;
+        }
+
+        .bar-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            height: 100%; /* Permite que a barra cresça dentro do grupo */
+            justify-content: flex-end;
+        }
+
+        .bar {
+            width: 25px;
+            height: 0%; /* Inicia em 0, o JS vai mudar isso */
+            background: rgba(255, 255, 255, 0.05); /* Fundo da barra vazia */
+            border-radius: 6px 6px 0 0;
+            transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            min-height: 2px; /* Garante que uma linha apareça mesmo com 0h */
+        }
+
+        .bar.active-bar {
+            background: var(--accent-primary) !important;
+            box-shadow: 0 0 15px var(--accent-glow), 0 0 5px var(--accent-primary);
+        }
+
+        .bar-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        /* Tooltip do Gráfico */
+        .bar:hover::after {
+            content: attr(data-horas) "h";
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        /* Stats Inferiores */
+        .stats-mini-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 1.5rem;
+        }
+
+        .stat-box {
+            background: rgba(74, 222, 128, 0.05);
+            padding: 10px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(74, 222, 128, 0.1);
+        }
+
+        .stat-label { font-size: 0.7rem; color: var(--text-secondary); display: block; }
+        .stat-value { font-size: 1.1rem; font-weight: 800; color: var(--accent-primary); }
+
+        /* --- ESTILO DOS CARDS FINAIS (RELATÓRIO E XP) --- */
+        .report-card, .xp-card {
+            background: rgba(30, 41, 59, 0.7) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            flex: 1;
+            min-width: 350px;
+            min-height: 450px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease !important;
+        }
+
+        .report-card:hover, .xp-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(74, 222, 128, 0.4) !important;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6), 0 0 20px rgba(74, 222, 128, 0.15);
+        }
+
+        /* Alteração exclusiva para o Card de Relatório Mensal */
+        .report-card {
+            /* Força a altura padrão de 500px */
+            height: 500px !important;
+            min-height: 500px !important;
+            
+            /* Organiza o conteúdo para preencher o espaço verticalmente */
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important; 
+            padding: 2rem !important;
+            
+            flex: 1;
+            min-width: 350px;
+        }
+
+        .report-card h3, .xp-card h3 {
+            font-size: 0.85rem !important;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent-primary) !important;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        /* --- ESTILO ESPECÍFICO DO RELATÓRIO --- */
+        .report-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px !important;
+            margin-bottom: 2rem;
+            margin-top: 10px;
+        }
+
+        .report-stat-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .report-label { font-size: 0.7rem; color: var(--text-secondary); display: block; }
+        .report-value { font-size: 1.8rem !important; font-weight: 800; color: var(--text-primary); }
+
+        /* Barra de Meta */
+        .goal-container {
+            margin-top: auto;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .goal-header, .goal-footer { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 8px; }
+        .progress-track { height: 14px !important; background: rgba(255, 255, 255, 0.05); border-radius: 10px; overflow: hidden; margin: 12px 0;}
+        .progress-fill { height: 100%; background: var(--accent-primary); width: 0%; transition: width 1s ease; box-shadow: 0 0 10px var(--accent-glow); }
+
+        /* --- ESTILO ESPECÍFICO DO XP --- */
+        .level-display { text-align: center; margin-bottom: 2rem; }
+        .level-title { display: block; font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; }
+        .level-number { font-size: 4rem; font-weight: 900; color: var(--accent-primary); line-height: 1; filter: drop-shadow(0 0 15px var(--accent-glow)); }
+
+        .xp-track { height: 14px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; overflow: hidden; margin: 10px 0; }
+        .xp-fill { height: 100%; background: linear-gradient(90deg, var(--accent-primary), #22c55e); width: 75%; box-shadow: 0 0 15px var(--accent-glow); }
+
+        .xp-footer-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 2rem; }
+        .xp-stat { background: rgba(74, 222, 128, 0.05); padding: 12px; border-radius: 12px; text-align: center; border: 1px solid rgba(74, 222, 128, 0.1); }
+        .xp-stat-label { font-size: 0.65rem; color: var(--text-secondary); display: block; }
+        .xp-stat-value { font-size: 1rem; font-weight: 700; color: #fff; }
+
+        .btn-delete {
+            transition: transform 0.2s ease, color 0.2s ease;
+            padding: 0 5px;
+        }
+
+        .btn-delete:hover {
+            transform: scale(1.3);
+            color: #ff4d4d !important;
+        }
+
+        .record-list {
+            list-style: none;
+            margin-top: 10px;
+            max-height: 120px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .record-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 8px 12px;
+            border-radius: 10px;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+        }
+
+        .record-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .record-info {
+            color: var(--text-secondary);
+        }
+
+        .record-info strong {
+            color: var(--accent-primary);
+        }
+
+        /* Container do seletor no relatório */
+        .report-controls {
+            margin-bottom: 2rem;
+        }
+
+        .report-controls label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            margin-left: 5px;
+        }
+
+        /* O "Botão" de Seleção Estilizado */
+        #select-mes-relatorio {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.6) !important; /* Fundo escuro translúcido */
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: #fff !important;
+            padding: 12px 15px !important;
+            border-radius: 12px !important;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+            appearance: none; /* Remove a seta padrão */
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%234ade80' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 12px center !important;
+        }
+
+        /* Efeito de Foco (quando clica) */
+        #select-mes-relatorio:focus {
+            border-color: var(--accent-primary) !important;
+            box-shadow: 0 0 15px rgba(74, 222, 128, 0.2);
+            background-color: rgba(30, 41, 59, 0.9) !important;
+        }
+
+        /* Estilizando as opções dentro do select (apenas para navegadores que permitem) */
+        #select-mes-relatorio option {
+            background: #1e293b;
+            color: #fff;
+            padding: 10px;
+        }
+
+        /* --- RESET E ESTRUTURA DO FOOTER --- */
+        .main-footer {
+            background-color: #0f172a !important; /* Fundo sólido para evitar transparências indesejadas */
+            border-top: 1px solid var(--accent-primary);
+            padding: 20px 20px 20px 20px;
+            margin-top: 10px !important;
+            color: #f8fafc;
+            width: 100%;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: row; /* Força um ao lado do outro */
+            justify-content: space-between;
+            flex-wrap: wrap; /* Quebra linha apenas se não couber */
+            gap: 30px;
+        }
+
+        /* Colunas Individuais */
+        .footer-column {
+            flex: 1;
+            min-width: 200px; /* Garante que não fiquem esmagadas */
+        }
+
+        .footer-column h4 {
+            color: var(--accent-primary);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--accent-primary);
+            padding-left: 5px;
+        }
+
+        /* Branding e Redes */
+        .footer-tagline {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin: 15px 0;
+            line-height: 1.5;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-decoration: none;
+            transition: 0.3s;
+            border: 1px solid rgba(74, 222, 128, 0.2);
+        }
+
+        .social-icon:hover {
+            background: var(--accent-primary);
+            color: #0f172a;
+            transform: translateY(-3px);
+        }
+
+        /* Coluna de Info Direita */
+        .status-col {
+            text-align: right;
+        }
+
+        .location-text { font-size: 0.8rem; color: #94a3b8; }
+        .version { font-size: 0.7rem; color: #475569; display: block; margin-top: 5px; }
+        .copyright { font-size: 0.75rem; color: #475569; margin-top: 20px; }
+
+        /* --- RESPONSIVIDADE (MOBILE) --- */
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column; /* No celular fica um abaixo do outro */
+                text-align: center;
+            }
+            .social-links { justify-content: center; }
+            .status-col { text-align: center; }
+        }
